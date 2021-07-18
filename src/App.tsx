@@ -1,43 +1,28 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
+import React from 'react'
 import './App.css'
+import { Tabs } from './components/Tabs/Tabs'
+
+import styles from './app.module.css'
+
+const tabsData = [
+  {
+    label: <q>one</q>,
+    content: <p>here is some content</p>,
+  },
+  {
+    label: <em>two</em>,
+    content: <h1>boo ya</h1>,
+  },
+  {
+    label: <h3>three</h3>,
+    content: <div>something else</div>,
+  },
+]
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div className={styles.app}>
+      <Tabs tabs={tabsData} />
     </div>
   )
 }
