@@ -1,28 +1,19 @@
 import React from 'react'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import './App.css'
-import { Tabs } from './components/Tabs/Tabs'
+import { routes } from './routes'
 
 import styles from './app.module.css'
-
-const tabsData = [
-  {
-    label: <q>one</q>,
-    content: <p>here is some content</p>,
-  },
-  {
-    label: <em>two</em>,
-    content: <h1>boo ya</h1>,
-  },
-  {
-    label: <h3>three</h3>,
-    content: <div>something else</div>,
-  },
-]
 
 function App() {
   return (
     <div className={styles.app}>
-      <Tabs tabs={tabsData} />
+      <BrowserRouter>
+        <Switch>
+          {routes.map(({path, component}) => <Route key={path} path={path} component={component}/>)}
+          <Redirect to='/tabs' />
+        </Switch>
+      </BrowserRouter>
     </div>
   )
 }
