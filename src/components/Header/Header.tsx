@@ -54,12 +54,7 @@ export const Header: React.FC = () => {
 
   // todo: currently is only handling single menu display at a time
   function setMenu(label: string) {
-    setActiveMenus(activeMenus => {
-      if (activeMenus.includes(label)) {
-        return []
-      }
-      return [label]
-    })
+    if (!activeMenus?.includes(label)) setActiveMenus([label])
   }
 
   // todo: can I conditionally hide react components? may need to display: none and use aria
