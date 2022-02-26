@@ -5,7 +5,7 @@ import { useHeaderContext } from '../../Header/Header'
 /**
  * Menu Interface
  * @param {object} props props
- * @param {{items: {label: string, path: string, render: function, displayType: string}[]}} props.menu menu
+ * @param {{items: {label: string, path: string, render: function, displayType?: string}[]}} props.menu menu
  * @returns
  */
 export const Menu = ({ menu }) => {

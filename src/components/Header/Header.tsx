@@ -46,10 +46,10 @@ export const useHeaderContext = () => useContext(HeaderContext)
 export const Header: React.FC = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
-  const [activeMenus, setActiveMenus] = useState([])
+  const [activeMenus, setActiveMenus] = useState<string[]>([])
   useCloseHeader(headerRef, setMenu, activeMenus)
 
-  function setMenu(label) {
+  function setMenu(label: string) {
     setActiveMenus([label])
   }
 
