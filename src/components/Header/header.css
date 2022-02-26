@@ -1,13 +1,27 @@
 /* re-arrange the order on mobile */
+/* additionally improve centering of the logo */
 @media (max-width: 768px) {
-  .primaryMenu {
+  .primary-menu {
     order: 1;
+    flex: 1;
   }
   .logo {
     order: 2;
   }
-  .secondaryMenu {
+  .secondary-menu {
     order: 3;
+    flex: 1;
+    display: flex;
+    justify-content: end;
+  }
+
+  /* todo: refactor to remove important */
+  .menu-list {
+    gap: 0.25rem !important;
+  }
+  .menu-item__wrapper {
+    width: 100vw !important; /* width of the menu */
+    min-height: 60vh !important;
   }
 }
 
@@ -30,8 +44,8 @@
   font-size: 1.5rem;
 }
 
-.primary-menu > ul,
-.secondary-menu > ul {
+/* MENUS */
+.menu-list {
   display: flex;
   list-style: none;
   margin: 0;
@@ -39,5 +53,35 @@
   gap: 1rem;
 }
 
-.secondary-menu {
+.menu-item {
+  cursor: pointer;
+}
+
+.menu-item--active {
+  text-decoration: underline;
+}
+
+.menu-item__wrapper {
+  margin-top: 5rem; /* height of the header */
+  position: absolute;
+  top: 0;
+  right: 0;
+  outline: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw; /* width of the menu */
+  min-height: 30vh;
+
+  max-height: 100vh;
+  overflow-y: auto;
+
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item--display-type-sidebar .menu-item__wrapper {
+  /* toggle between 100vw vs 30vw for primary and secondary */
+  width: 25vw; /* width of the menu */
+  min-height: 80vh;
 }

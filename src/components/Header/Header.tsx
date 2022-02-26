@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useRef, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { Menu } from '../MultiMenu/Menu/Menu'
 
 import './header.css'
 import { One, Two, Three, Four } from './Temp'
+import { useCloseHeader } from './useCloseHeader'
 
 const primaryMenuData = {
   items: [
@@ -16,14 +17,25 @@ const primaryMenuData = {
 const secondaryMenuData = {
   items: [
     { label: '(1)', path: '/one', render: idx => <One /> },
-    { label: '(2)', path: '/two', render: idx => <Two /> },
-    { label: '(3)', path: '/three', render: idx => <Three /> },
+    {
+      label: '(2)',
+      path: '/two',
+      render: idx => <Two />,
+      displayType: 'sidebar',
+    },
+    {
+      label: '(3)',
+      path: '/three',
+      render: idx => <Three />,
+      displayType: 'sidebar',
+    },
   ],
 }
 
 const initial = {
+  isMobileView: true,
   activeMenus: [],
-  setMenu: () => {},
+  setMenu: (label: string) => {},
 }
 
 // global header context to handle menu state between both primary and secondary but also output area
@@ -32,8 +44,10 @@ const HeaderContext = createContext(initial)
 export const useHeaderContext = () => useContext(HeaderContext)
 
 export const Header: React.FC = () => {
+  const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
   const [activeMenus, setActiveMenus] = useState([])
+  useCloseHeader(headerRef, setMenu, activeMenus)
 
   function setMenu(label) {
     setActiveMenus([label])
@@ -41,7 +55,7 @@ export const Header: React.FC = () => {
 
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenus, setMenu }}>
-      <header className='header'>
+      <header ref={headerRef} className='header'>
         <div className='logo'>LOGO</div>
 
         {/* primary menu */}
