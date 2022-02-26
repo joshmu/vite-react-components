@@ -1,0 +1,40 @@
+/* re-arrange the order on mobile */
+@media (max-width: 768px) {
+  .primaryMenu {
+    order: 1;
+  }
+  .logo {
+    order: 2;
+  }
+  .secondaryMenu {
+    order: 3;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.primaryMenu {
+  font-size: 1.5rem;
+}
+
+.primaryMenu > ul,
+.secondaryMenu > ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+}
+
+.secondaryMenu {
+}
