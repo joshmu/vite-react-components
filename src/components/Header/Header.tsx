@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { Menu } from '../MultiMenu/Menu/Menu'
 
-import styles from './header.module.css'
+import './header.css'
 import { One, Two, Three, Four } from './Temp'
 
 const primaryMenuData = {
@@ -13,10 +13,20 @@ const primaryMenuData = {
     { label: 'four', path: '/four', render: idx => <Four /> },
   ],
 }
+const secondaryMenuData = {
+  items: [
+    { label: '(1)', path: '/one', render: idx => <One /> },
+    { label: '(2)', path: '/two', render: idx => <Two /> },
+    { label: '(3)', path: '/three', render: idx => <Three /> },
+  ],
+}
 
 const initial = {
-  activeMenu: null,
+  activeMenus: [],
+  setMenu: () => {},
 }
+
+// global header context to handle menu state between both primary and secondary but also output area
 const HeaderContext = createContext(initial)
 
 export const useHeaderContext = () => useContext(HeaderContext)
@@ -31,21 +41,17 @@ export const Header: React.FC = () => {
 
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenus, setMenu }}>
-      <header className={styles.header}>
-        <div className={styles.logo}>LOGO</div>
+      <header className='header'>
+        <div className='logo'>LOGO</div>
 
         {/* primary menu */}
-        <nav className={styles.primaryMenu}>
+        <nav className='primary-menu'>
           {isMobileView ? <div>(=)</div> : <Menu menu={primaryMenuData} />}
         </nav>
 
-        {/* seconary menu */}
-        <nav className={styles.secondaryMenu}>
-          <ul>
-            <li>(1)</li>
-            <li>(2)</li>
-            <li>(3)</li>
-          </ul>
+        {/* secondary menu */}
+        <nav className='secondary-menu'>
+          <Menu menu={secondaryMenuData} />
         </nav>
       </header>
     </HeaderContext.Provider>

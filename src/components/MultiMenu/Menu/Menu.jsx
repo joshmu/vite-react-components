@@ -1,5 +1,7 @@
+import cn from 'classnames'
 import React from 'react'
 import { useHeaderContext } from '../../Header/Header'
+import './menu.css'
 
 /**
  * Menu Interface
@@ -11,13 +13,20 @@ export const Menu = ({ menu }) => {
   const { setMenu, activeMenus } = useHeaderContext()
 
   return (
-    <ul>
+    <ul className={'menu'}>
       {menu.items.map((item, idx) => {
         const { label, render } = item
+        const isActive = activeMenus.includes(label)
         return (
-          <li key={idx} onClick={() => setMenu(label)}>
+          <li
+            key={idx}
+            onClick={() => setMenu(label)}
+            className={cn('menu-item', { 'menu-item--active': isActive })}
+          >
             {label}
-            {activeMenus.includes(label) && render(idx)}
+            {isActive && render && (
+              <div className='menu-item__wrapper'>{render(idx)}</div>
+            )}
           </li>
         )
       })}

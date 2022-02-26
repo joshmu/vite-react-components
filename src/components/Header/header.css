@@ -12,10 +12,13 @@
 }
 
 .header {
+  position: relative; /* for absolute positioning of menu output */
   display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  padding: 1rem;
+  background-color: #20283a;
 }
 
 .logo {
@@ -23,12 +26,12 @@
   font-size: 2rem;
 }
 
-.primaryMenu {
+.primary-menu {
   font-size: 1.5rem;
 }
 
-.primaryMenu > ul,
-.secondaryMenu > ul {
+.primary-menu > ul,
+.secondary-menu > ul {
   display: flex;
   list-style: none;
   margin: 0;
@@ -36,5 +39,5 @@
   gap: 1rem;
 }
 
-.secondaryMenu {
+.secondary-menu {
 }

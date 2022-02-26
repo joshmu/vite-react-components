@@ -10,7 +10,9 @@ function App() {
     <div className={styles.app}>
       <BrowserRouter>
         <Switch>
-          {routes.map(({path, component}) => <Route key={path} path={path} component={component}/>)}
+          {routes.map(({ path, component }) => (
+            <Route key={path} path={path} component={component} />
+          ))}
           <Redirect to='/tabs' />
         </Switch>
       </BrowserRouter>
