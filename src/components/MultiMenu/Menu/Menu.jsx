@@ -5,7 +5,7 @@ import { useHeaderContext } from '../../Header/Header'
 /**
  * Menu Interface
  * @param {object} props props
- * @param {{items: {label: string, path: string, render: function, displayType?: string}[]}} props.menu menu
+ * @param {{items: {label: string, renderLabel?: function, path: string, render: function, displayType?: string}[]}} props.menu menu
  * @returns
  */
 export const Menu = ({ menu }) => {
@@ -14,7 +14,7 @@ export const Menu = ({ menu }) => {
   return (
     <ul className='menu-list'>
       {menu.items.map((item, idx) => {
-        const { label, render, displayType = null } = item
+        const { label, renderLabel, render, displayType = null } = item
         const isActive = activeMenus.includes(label)
         return (
           <li
@@ -25,9 +25,9 @@ export const Menu = ({ menu }) => {
               [`menu-item--display-type-${displayType}`]: displayType,
             })}
           >
-            {label}
+            {renderLabel ? renderLabel() : label}
             {isActive && render && (
-              <div className='menu-item__wrapper'>{render(idx)}</div>
+              <div className='menu-item__display'>{render(idx)}</div>
             )}
           </li>
         )

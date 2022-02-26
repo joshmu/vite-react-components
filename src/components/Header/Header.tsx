@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { Menu } from '../MultiMenu/Menu/Menu'
+import { Hamburger } from './Hamburger'
 
-import './header.css'
 import { One, Two, Three, Four } from './Temp'
 import { useCloseHeader } from './useCloseHeader'
+
+import './header.css'
 
 const primaryMenuData = {
   items: [
@@ -34,7 +36,7 @@ const secondaryMenuData = {
 
 const initial = {
   isMobileView: true,
-  activeMenus: [],
+  activeMenus: [''],
   setMenu: (label: string) => {},
 }
 
@@ -47,11 +49,20 @@ export const Header: React.FC = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
   const [activeMenus, setActiveMenus] = useState<string[]>([])
+
   useCloseHeader(headerRef, setMenu, activeMenus)
 
+  // todo: currently is only handling single menu display at a time
   function setMenu(label: string) {
-    setActiveMenus([label])
+    setActiveMenus(activeMenus => {
+      if (activeMenus.includes(label)) {
+        return []
+      }
+      return [label]
+    })
   }
+
+  // todo: can I conditionally hide react components? may need to display: none and use aria
 
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenus, setMenu }}>
@@ -60,7 +71,13 @@ export const Header: React.FC = () => {
 
         {/* primary menu */}
         <nav className='primary-menu'>
-          {isMobileView ? <div>(=)</div> : <Menu menu={primaryMenuData} />}
+          {isMobileView ? (
+            <Hamburger>
+              <Menu menu={primaryMenuData} />
+            </Hamburger>
+          ) : (
+            <Menu menu={primaryMenuData} />
+          )}
         </nav>
 
         {/* secondary menu */}

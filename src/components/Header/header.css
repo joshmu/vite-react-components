@@ -19,7 +19,7 @@
   .menu-list {
     gap: 0.25rem !important;
   }
-  .menu-item__wrapper {
+  .menu-item__display {
     width: 100vw !important; /* width of the menu */
     min-height: 60vh !important;
   }
@@ -61,7 +61,7 @@
   text-decoration: underline;
 }
 
-.menu-item__wrapper {
+.menu-item__display {
   margin-top: 5rem; /* height of the header */
   position: absolute;
   top: 0;
@@ -80,7 +80,7 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.menu-item--display-type-sidebar .menu-item__wrapper {
+.menu-item--display-type-sidebar .menu-item__display {
   /* toggle between 100vw vs 30vw for primary and secondary */
   width: 25vw; /* width of the menu */
   min-height: 80vh;
