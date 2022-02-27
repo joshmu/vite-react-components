@@ -1,16 +1,12 @@
 import { useEffect } from 'react'
 
-export const useClickAway = (ref, setMenu, activeMenus) => {
+export const useClickAway = (ref, callback) => {
   useEffect(() => {
     const handler = event => {
-      if (
-        activeMenus?.length &&
-        ref.current &&
-        !ref.current.contains(event.target)
-      ) {
+      if (ref.current && !ref.current.contains(event.target)) {
         console.log(event.target)
         console.log(ref.current)
-        setMenu([])
+        callback()
       }
     }
     document.addEventListener('mousedown', handler)
@@ -20,24 +16,5 @@ export const useClickAway = (ref, setMenu, activeMenus) => {
       document.removeEventListener('mousedown', handler)
       document.removeEventListener('touchstart', handler)
     }
-  }, [activeMenus])
-
-  // used for Esc key when header is active
-  useEffect(() => {
-    const handler = event => {
-      if (
-        (event.key === 'Escape' ||
-          event.code === 'Escape' ||
-          event.keyCode === 27) &&
-        activeMenus?.length
-      ) {
-        setMenu([])
-      }
-    }
-    document.addEventListener('keydown', handler)
-    return () => {
-      // Cleanup the event listener
-      document.removeEventListener('keydown', handler)
-    }
-  }, [activeMenus])
+  }, [])
 }

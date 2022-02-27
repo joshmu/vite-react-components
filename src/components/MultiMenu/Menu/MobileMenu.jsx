@@ -1,5 +1,7 @@
 import cn from 'classnames'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useClickAway } from '../../Header/useClickAway'
+import { useEscapeKey } from '../../Header/useEscapeKey'
 
 /**
  * Menu Interface
@@ -9,16 +11,73 @@ import React from 'react'
  * @returns
  */
 export const MobileMenu = ({ menu, depth = 0 }) => {
+  const mobileMenuRef = useRef(null)
+
+  // initial panel is first item in menu
+  const [activePanels, setActivePanels] = useState([menu.id])
+  const [panel, setPanel] = useState(menu)
+
+  // used for click outside header
+  useClickAway(mobileMenuRef, () => setActivePanels([menu.id]))
+  useEscapeKey(() => setActivePanels([menu.id]))
+
+  console.log('>>', getPanel(1, menu))
+
+  useEffect(() => {
+    const current = currentPanel(activePanels)
+    console.log({ current })
+    const p = getPanel(current, menu)
+    console.log({ p })
+    setPanel({ ...p })
+  }, [menu, activePanels])
+
+  function setActivePanel(panel) {
+    // do nothing if no more panels ahead
+    if (!panel?.items?.length) return
+    setActivePanels(active =>
+      active[active.length - 1] === panel.id ? active : [...active, panel.id]
+    )
+  }
+
+  function goBack() {
+    setActivePanels(active =>
+      active.length > 1 ? active.slice(0, -1) : active
+    )
+  }
+
+  function currentPanel(activePanels) {
+    return activePanels[activePanels.length - 1]
+  }
+
+  function getPanel(panelID, menu) {
+    if (menu.id === panelID) return menu
+
+    if (menu.items) {
+      for (const item of menu.items) {
+        if (item.id === panelID) return item
+        const p = getPanel(panelID, item)
+        if (p) return p
+      }
+    }
+  }
+
   return (
-    <ul className={cn('menu-list', `menu-list-depth-${depth}`)}>
-      {menu.items.map(item => {
-        const { label, id, render, items } = item
+    <ul
+      ref={mobileMenuRef}
+      className={cn('menu-list', `menu-list-depth-${depth}`)}
+    >
+      {activePanels.length > 1 && <li onClick={() => goBack()}>back</li>}
+
+      {panel.items.map(item => {
+        const { label, id, render } = item
 
         return (
-          <li key={id} className={cn('menu-item')}>
+          <li
+            key={id}
+            className={cn('menu-item')}
+            onClick={() => setActivePanel(item)}
+          >
             <h3>{label}</h3>
-
-            {items?.length && <MobileMenu menu={item} depth={++depth} />}
 
             {render && (
               <div className={cn('menu-item__display')}>

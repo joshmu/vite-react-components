@@ -87,9 +87,9 @@ export const Header: React.FC = () => {
   const [activeMenus, setActiveMenus] = useState<string[]>([])
 
   // used for click outside header
-  useClickAway(headerRef, setMenu, activeMenus)
+  useClickAway(headerRef, () => setMenu([]))
   // used for Esc key when header is active
-  useEscapeKey(setMenu, activeMenus)
+  useEscapeKey(() => setMenu([]))
 
   // todo: currently is only handling single menu display at a time
   function setMenu(label: string, depth: number) {

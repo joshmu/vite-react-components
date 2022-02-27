@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const useEscapeKey = (setMenu, activeMenus) => {
+export const useEscapeKey = callback => {
   useEffect(() => {
     const handler = event => {
       if (
@@ -9,12 +9,12 @@ export const useEscapeKey = (setMenu, activeMenus) => {
           event.keyCode === 27) &&
         activeMenus?.length
       ) {
-        setMenu([])
+        callback()
       }
     }
     document.addEventListener('keydown', handler)
     return () => {
       document.removeEventListener('keydown', handler)
     }
-  }, [activeMenus])
+  }, [])
 }
