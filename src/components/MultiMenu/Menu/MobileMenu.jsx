@@ -21,14 +21,10 @@ export const MobileMenu = ({ menu, depth = 0 }) => {
   useClickAway(mobileMenuRef, () => setActivePanels([menu.id]))
   useEscapeKey(() => setActivePanels([menu.id]))
 
-  console.log('>>', getPanel(1, menu))
-
   useEffect(() => {
     const current = currentPanel(activePanels)
-    console.log({ current })
     const p = getPanel(current, menu)
-    console.log({ p })
-    setPanel({ ...p })
+    setPanel(p)
   }, [menu, activePanels])
 
   function setActivePanel(panel) {
@@ -77,7 +73,9 @@ export const MobileMenu = ({ menu, depth = 0 }) => {
             className={cn('menu-item')}
             onClick={() => setActivePanel(item)}
           >
-            <h3>{label}</h3>
+            <h3>
+              {label} {item.items?.length && <span>+</span>}
+            </h3>
 
             {render && (
               <div className={cn('menu-item__display')}>
