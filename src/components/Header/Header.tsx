@@ -4,9 +4,12 @@ import { Menu } from '../MultiMenu/Menu/Menu'
 import { Hamburger } from './Hamburger'
 
 import { One, Two, Three, Four } from './Temp'
-import { useCloseHeader } from './useCloseHeader'
+import { useClickAway } from './useClickAway'
 
-import './header.css'
+import './header.scss'
+import { useEscapeKey } from './useEscapeKey'
+import cn from 'classnames'
+import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 
 const primaryMenuData = {
   items: [
@@ -16,6 +19,7 @@ const primaryMenuData = {
     { label: 'four', path: '/four', render: idx => <Four /> },
   ],
 }
+
 const secondaryMenuData = {
   items: [
     { label: '(1)', path: '/one', render: idx => <One /> },
@@ -34,10 +38,42 @@ const secondaryMenuData = {
   ],
 }
 
+const mobileMenuData = {
+  label: 'mobile menu',
+  id: 0,
+  items: [
+    {
+      id: 1,
+      label: 'one',
+      items: [
+        { id: 11, label: 'one-one' },
+        { id: 12, label: 'one-two' },
+      ],
+    },
+    {
+      id: 2,
+      label: 'two',
+      items: [
+        { id: 21, label: 'two-one' },
+        { id: 22, label: 'two-two' },
+        {
+          id: 23,
+          label: 'two-three',
+          items: [
+            { id: 231, label: 'two-three-one' },
+            { id: 232, label: 'two-three-two' },
+          ],
+        },
+        { id: 24, label: 'two-four' },
+      ],
+    },
+  ],
+}
+
 const initial = {
   isMobileView: true,
   activeMenus: [''],
-  setMenu: (label: string) => {},
+  setMenu: (label: string, depth: number) => {},
 }
 
 // global header context to handle menu state between both primary and secondary but also output area
@@ -50,14 +86,19 @@ export const Header: React.FC = () => {
   const { isMobileView } = useWindowSize()
   const [activeMenus, setActiveMenus] = useState<string[]>([])
 
-  useCloseHeader(headerRef, setMenu, activeMenus)
+  // used for click outside header
+  useClickAway(headerRef, setMenu, activeMenus)
+  // used for Esc key when header is active
+  useEscapeKey(setMenu, activeMenus)
 
   // todo: currently is only handling single menu display at a time
-  function setMenu(label: string) {
-    if (!activeMenus?.includes(label)) setActiveMenus([label])
+  function setMenu(label: string, depth: number) {
+    setActiveMenus(currentMenus => {
+      !currentMenus?.includes(label)
+        ? setActiveMenus([label])
+        : setActiveMenus([])
+    })
   }
-
-  // todo: can I conditionally hide react components? may need to display: none and use aria
 
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenus, setMenu }}>
@@ -65,10 +106,14 @@ export const Header: React.FC = () => {
         <div className='logo'>LOGO</div>
 
         {/* primary menu */}
-        <nav className='primary-menu'>
+        <nav
+          className={cn('primary-menu', {
+            'primary-menu-mobile': isMobileView,
+          })}
+        >
           {isMobileView ? (
             <Hamburger>
-              <Menu menu={primaryMenuData} />
+              <MobileMenu menu={mobileMenuData} />
             </Hamburger>
           ) : (
             <Menu menu={primaryMenuData} />

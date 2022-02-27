@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
-export const useCloseHeader = (ref, setMenu, activeMenus) => {
-  // used for click outside header
+export const useClickAway = (ref, setMenu, activeMenus) => {
   useEffect(() => {
     const handler = event => {
       if (
@@ -26,7 +25,6 @@ export const useCloseHeader = (ref, setMenu, activeMenus) => {
   // used for Esc key when header is active
   useEffect(() => {
     const handler = event => {
-      console.log({ event })
       if (
         (event.key === 'Escape' ||
           event.code === 'Escape' ||

@@ -17,7 +17,17 @@ export const Two = () => {
 export const Three = () => {
   return (
     <div>
-      <h1>Three xxx</h1>
+      <ul>
+        <li>
+          <a href='#'>one</a>
+        </li>
+        <li>
+          <a href='#'>two</a>
+        </li>
+        <li>
+          <a href='#'>three</a>
+        </li>
+      </ul>
     </div>
   )
 }
