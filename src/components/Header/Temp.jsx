@@ -9,14 +9,14 @@ export const One = () => {
 }
 export const Two = () => {
   return (
-    <div>
+    <div className='center'>
       <h1>-- Two --</h1>
     </div>
   )
 }
 export const Three = () => {
   return (
-    <div>
+    <div className='center'>
       <ul>
         <li>
           <a href='#'>one</a>
@@ -32,9 +32,5 @@ export const Three = () => {
   )
 }
 export const Four = () => {
-  return (
-    <div>
-      <h1> -- Four -- </h1>
-    </div>
-  )
+  return <h1> -- Four -- </h1>
 }

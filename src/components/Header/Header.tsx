@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useRef, useState } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { Menu } from '../MultiMenu/Menu/Menu'
 import { Hamburger } from './Hamburger'
@@ -99,6 +105,11 @@ export const Header = () => {
   useClickAway(headerRef, () => setMenu(''))
   // used for Esc key when header is active
   useEscapeKey(() => setMenu(''))
+
+  // activate the light theme upon any interaction
+  useEffect(() => {
+    if (activeMenu && theme !== THEME.light) setTheme(THEME.light)
+  }, [activeMenu, theme])
 
   // todo: currently is only handling single menu display at a time
   function setMenu(label: string, depth?: number, target?: EventTarget) {

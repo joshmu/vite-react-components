@@ -42,6 +42,7 @@ export const Menu = ({ menu, depth = 0 }) => {
                   [`menu-item--display-type-${displayType}`]: displayType,
                   hidden: !isActive,
                 })}
+                aria-expanded={!isActive}
               >
                 {render(idx)}
               </div>

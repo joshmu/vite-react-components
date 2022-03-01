@@ -98,6 +98,8 @@
     align-items: center;
     height: 100%;
 
+    transition: all 0.3s ease-in-out;
+
     .menu-item__btn {
       cursor: pointer;
       background-color: transparent;
@@ -195,4 +197,12 @@
   p {
     padding-top: 1rem;
   }
+}
+
+// todo: temp
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
