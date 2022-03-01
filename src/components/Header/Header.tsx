@@ -10,6 +10,7 @@ import './header.scss'
 import { useEscapeKey } from './useEscapeKey'
 import cn from 'classnames'
 import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
+import { FocusAnimation } from './FocusAnimation'
 
 const primaryMenuData = {
   items: [
@@ -72,8 +73,8 @@ const mobileMenuData = {
 
 const initial = {
   isMobileView: true,
-  activeMenus: [''],
-  setMenu: (label: string, depth: number) => {},
+  activeMenus: null,
+  setMenu: (label: string, depth?: number, target?: EventTarget) => {},
 }
 
 // global header context to handle menu state between both primary and secondary but also output area
@@ -84,24 +85,23 @@ export const useHeaderContext = () => useContext(HeaderContext)
 export const Header: React.FC = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
-  const [activeMenus, setActiveMenus] = useState<string[]>([])
+  const [activeMenu, setActiveMenu] = useState<string>()
+  const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
 
   // used for click outside header
-  useClickAway(headerRef, () => setMenu([]))
+  useClickAway(headerRef, () => setMenu(''))
   // used for Esc key when header is active
-  useEscapeKey(() => setMenu([]))
+  useEscapeKey(() => setMenu(''))
 
   // todo: currently is only handling single menu display at a time
-  function setMenu(label: string, depth: number) {
-    setActiveMenus(currentMenus => {
-      !currentMenus?.includes(label)
-        ? setActiveMenus([label])
-        : setActiveMenus([])
-    })
+  function setMenu(label: string, depth?: number, target?: EventTarget) {
+    setFocusTarget(target)
+
+    setActiveMenu(current => (current === label ? null : label))
   }
 
   return (
-    <HeaderContext.Provider value={{ isMobileView, activeMenus, setMenu }}>
+    <HeaderContext.Provider value={{ isMobileView, activeMenu, setMenu }}>
       <header ref={headerRef} className='header'>
         <div className='logo'>LOGO</div>
 
@@ -124,6 +124,8 @@ export const Header: React.FC = () => {
         <nav className='secondary-menu'>
           <Menu menu={secondaryMenuData} />
         </nav>
+
+        <FocusAnimation target={focusTarget} />
       </header>
     </HeaderContext.Provider>
   )

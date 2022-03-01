@@ -16,8 +16,8 @@
   }
 
   /* todo: refactor to remove important */
-  .menu-list {
-    gap: 0.25rem !important;
+  .menu-list:not(:last-child) {
+    margin-right: 0.25rem !important;
   }
   .menu-item__display {
     width: 100vw !important; /* width of the menu */
@@ -58,8 +58,8 @@
     }
   }
   .secondary-menu {
-    .menu-list {
-      gap: 0.5rem;
+    .menu-list:not(:last-child) {
+      margin-right: 0.5rem;
     }
     .menu-item__btn {
       padding: 0.5rem 0.5rem;
@@ -74,7 +74,6 @@
   margin: 0;
   padding: 0;
   height: 100%;
-  gap: 1rem;
 
   .menu-item {
     display: flex;
@@ -82,12 +81,12 @@
     align-items: center;
     height: 100%;
 
-    // underline (above the header border)
-    box-shadow: inset 0px -2px rgba(255, 255, 255, 0);
-    transition: 0.3s box-shadow, 0.2s color;
-    &--active {
-      box-shadow: inset 0px -2px white;
-    }
+    // // underline (above the header border)
+    // box-shadow: inset 0px -2px rgba(255, 255, 255, 0);
+    // transition: 0.3s box-shadow, 0.2s color;
+    // &--active {
+    //   box-shadow: inset 0px -2px white;
+    // }
 
     .menu-item__btn {
       cursor: pointer;
@@ -96,6 +95,10 @@
       color: white;
     }
   }
+}
+
+.menu-list:not(:last-child) {
+  margin-right: 1rem;
 }
 
 .primary-menu-mobile {
@@ -135,4 +138,21 @@
 
 .hidden {
   display: none;
+}
+
+.focus-animation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+
+  background-color: rgba(255, 255, 255, 1);
+  height: 2px;
+
+  width: 0; // dynamically will update
+  opacity: 0; // dynamically will update
+
+  transform: scale(0);
+
+  transition: all 0.3s ease-in-out;
 }

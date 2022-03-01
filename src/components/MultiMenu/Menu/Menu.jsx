@@ -10,23 +10,26 @@ import { useHeaderContext } from '../../Header/Header'
  * @returns
  */
 export const Menu = ({ menu, depth = 0 }) => {
-  const { setMenu, activeMenus } = useHeaderContext()
+  const { setMenu, activeMenu } = useHeaderContext()
 
   return (
     <ul className={cn('menu-list', `menu-list-depth-${depth}`)}>
       {menu.items.map((item, idx) => {
         const { label, renderLabel, render, submenu, displayType = null } = item
-        const isActive = activeMenus.includes(label)
+        const isActive = label === activeMenu
         return (
           <li
             key={idx}
             className={cn('menu-item', { 'menu-item--active': isActive })}
+            // need to leave the entire window not the button itself
+            onMouseLeave={event => setMenu(null, depth, null)}
           >
             <button
               className='menu-item__btn'
               aria-haspopup='menu'
               aria-expanded={isActive}
-              onClick={() => setMenu(label, depth)}
+              onClick={event => setMenu(label, depth, event.target)}
+              onMouseEnter={event => setMenu(label, depth, event.target)}
             >
               {renderLabel ? renderLabel() : label}
             </button>
