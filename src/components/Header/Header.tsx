@@ -120,7 +120,7 @@ export const Header = () => {
 
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenu, setMenu }}>
-      <div className='header-wrapper'>
+      <div className={cn('header-wrapper', 'base--theme')}>
         <header
           ref={headerRef}
           onMouseEnter={() => setTheme(THEME.light)}
