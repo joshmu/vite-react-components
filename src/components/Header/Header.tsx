@@ -13,6 +13,11 @@ import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
 import { Overlay } from './Overlay'
 
+const THEME = {
+  dark: 'dark',
+  light: 'light',
+}
+
 const primaryMenuData = {
   items: [
     { label: 'one', path: '/one', render: idx => <One /> },
@@ -88,6 +93,7 @@ export const Header = () => {
   const { isMobileView } = useWindowSize()
   const [activeMenu, setActiveMenu] = useState<string>()
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
+  const [theme, setTheme] = useState(THEME.dark)
 
   // used for click outside header
   useClickAway(headerRef, () => setMenu(''))
@@ -103,33 +109,39 @@ export const Header = () => {
 
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenu, setMenu }}>
-      <header ref={headerRef} className='header'>
-        <div className='logo'>LOGO</div>
-
-        {/* primary menu */}
-        <nav
-          className={cn('primary-menu', {
-            'primary-menu-mobile': isMobileView,
-          })}
+      <div className='header-wrapper'>
+        <header
+          ref={headerRef}
+          onMouseEnter={() => setTheme(THEME.light)}
+          onMouseLeave={() => setTheme(THEME.dark)}
+          className={cn('header', `theme--${theme}`)}
         >
-          {isMobileView ? (
-            <Hamburger>
-              <MobileMenu menu={mobileMenuData} />
-            </Hamburger>
-          ) : (
-            <Menu menu={primaryMenuData} />
-          )}
-        </nav>
+          <div className='logo'>LOGO</div>
 
-        {/* secondary menu */}
-        <nav className='secondary-menu'>
-          <Menu menu={secondaryMenuData} />
-        </nav>
+          {/* primary menu */}
+          <nav
+            className={cn('primary-menu', {
+              'primary-menu-mobile': isMobileView,
+            })}
+          >
+            {isMobileView ? (
+              <Hamburger>
+                <MobileMenu menu={mobileMenuData} />
+              </Hamburger>
+            ) : (
+              <Menu menu={primaryMenuData} />
+            )}
+          </nav>
 
-        <FocusAnimation target={focusTarget} />
+          {/* secondary menu */}
+          <nav className='secondary-menu'>
+            <Menu menu={secondaryMenuData} />
+          </nav>
 
+          <FocusAnimation target={focusTarget} />
+        </header>
         <Overlay active={Boolean(activeMenu)} />
-      </header>
+      </div>
     </HeaderContext.Provider>
   )
 }
