@@ -1,10 +1,10 @@
-import { Header } from './components/Header/Header'
+import { HeaderApp } from './components/Header/Header'
 import { Tabs } from './components/Tabs/Tabs'
 
 export const routes: route[] = [
   {
     path: '/header',
-    component: Header,
+    component: HeaderApp,
   },
   {
     path: '/tabs',

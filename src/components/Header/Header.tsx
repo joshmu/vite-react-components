@@ -11,6 +11,7 @@ import { useEscapeKey } from './useEscapeKey'
 import cn from 'classnames'
 import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
+import { Overlay } from './Overlay'
 
 const primaryMenuData = {
   items: [
@@ -82,7 +83,7 @@ const HeaderContext = createContext(initial)
 
 export const useHeaderContext = () => useContext(HeaderContext)
 
-export const Header: React.FC = () => {
+export const Header = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
   const [activeMenu, setActiveMenu] = useState<string>()
@@ -126,7 +127,106 @@ export const Header: React.FC = () => {
         </nav>
 
         <FocusAnimation target={focusTarget} />
+
+        <Overlay active={Boolean(activeMenu)} />
       </header>
     </HeaderContext.Provider>
+  )
+}
+
+export const HeaderApp = () => {
+  return (
+    <>
+      <Header />
+      <main>
+        <div className='lorem-block'>
+          <h1>test</h1>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero quam
+            neque fugiat totam exercitationem autem maiores, ipsa accusamus in
+            earum, sint, hic et! Similique quos necessitatibus expedita itaque
+            ratione, nostrum voluptatibus nisi dignissimos labore soluta tempora
+            quod suscipit possimus, fuga odit veniam corporis ut quisquam quia
+            magnam veritatis facilis consequatur numquam! Fugit aspernatur
+            nesciunt asperiores similique vero, sed est in quisquam voluptatum
+            libero eligendi quos, ea ut veritatis voluptatibus minima quod error
+            praesentium! Assumenda, iusto. Nulla neque molestiae inventore porro
+            dolore voluptatum non magnam, praesentium ab nihil. Nobis illo
+            beatae officiis maiores odit cumque, recusandae voluptas nisi
+            aliquid praesentium. Temporibus quos fugiat nemo, optio rem ipsum
+            alias blanditiis, dolorem perspiciatis a provident iusto molestias
+            facere itaque non eius officiis impedit, ipsa nihil in cum
+            repellendus! Molestias dicta aspernatur facere, facilis similique
+            labore, consectetur commodi asperiores ex a officia! Saepe ducimus
+            assumenda, voluptatem ea quaerat quasi dignissimos quam nisi?
+            Delectus inventore ducimus dolores maiores odio nulla sint, tempora
+            necessitatibus soluta ab doloribus sed eaque voluptas provident
+            dolore praesentium, quasi et consequuntur aperiam sapiente accusamus
+            excepturi eveniet recusandae ipsam! Ipsam optio praesentium
+            accusamus voluptatibus deleniti? Officiis reprehenderit atque, autem
+            laboriosam, maxime alias rerum eligendi magnam quia quod suscipit.
+            Sit, aspernatur. Quidem, perferendis.
+          </p>
+        </div>
+        <div className='lorem-block'>
+          <h1>test</h1>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero quam
+            neque fugiat totam exercitationem autem maiores, ipsa accusamus in
+            earum, sint, hic et! Similique quos necessitatibus expedita itaque
+            ratione, nostrum voluptatibus nisi dignissimos labore soluta tempora
+            quod suscipit possimus, fuga odit veniam corporis ut quisquam quia
+            magnam veritatis facilis consequatur numquam! Fugit aspernatur
+            nesciunt asperiores similique vero, sed est in quisquam voluptatum
+            libero eligendi quos, ea ut veritatis voluptatibus minima quod error
+            praesentium! Assumenda, iusto. Nulla neque molestiae inventore porro
+            dolore voluptatum non magnam, praesentium ab nihil. Nobis illo
+            beatae officiis maiores odit cumque, recusandae voluptas nisi
+            aliquid praesentium. Temporibus quos fugiat nemo, optio rem ipsum
+            alias blanditiis, dolorem perspiciatis a provident iusto molestias
+            facere itaque non eius officiis impedit, ipsa nihil in cum
+            repellendus! Molestias dicta aspernatur facere, facilis similique
+            labore, consectetur commodi asperiores ex a officia! Saepe ducimus
+            assumenda, voluptatem ea quaerat quasi dignissimos quam nisi?
+            Delectus inventore ducimus dolores maiores odio nulla sint, tempora
+            necessitatibus soluta ab doloribus sed eaque voluptas provident
+            dolore praesentium, quasi et consequuntur aperiam sapiente accusamus
+            excepturi eveniet recusandae ipsam! Ipsam optio praesentium
+            accusamus voluptatibus deleniti? Officiis reprehenderit atque, autem
+            laboriosam, maxime alias rerum eligendi magnam quia quod suscipit.
+            Sit, aspernatur. Quidem, perferendis.
+          </p>
+        </div>
+        <div className='lorem-block'>
+          <h1>test</h1>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero quam
+            neque fugiat totam exercitationem autem maiores, ipsa accusamus in
+            earum, sint, hic et! Similique quos necessitatibus expedita itaque
+            ratione, nostrum voluptatibus nisi dignissimos labore soluta tempora
+            quod suscipit possimus, fuga odit veniam corporis ut quisquam quia
+            magnam veritatis facilis consequatur numquam! Fugit aspernatur
+            nesciunt asperiores similique vero, sed est in quisquam voluptatum
+            libero eligendi quos, ea ut veritatis voluptatibus minima quod error
+            praesentium! Assumenda, iusto. Nulla neque molestiae inventore porro
+            dolore voluptatum non magnam, praesentium ab nihil. Nobis illo
+            beatae officiis maiores odit cumque, recusandae voluptas nisi
+            aliquid praesentium. Temporibus quos fugiat nemo, optio rem ipsum
+            alias blanditiis, dolorem perspiciatis a provident iusto molestias
+            facere itaque non eius officiis impedit, ipsa nihil in cum
+            repellendus! Molestias dicta aspernatur facere, facilis similique
+            labore, consectetur commodi asperiores ex a officia! Saepe ducimus
+            assumenda, voluptatem ea quaerat quasi dignissimos quam nisi?
+            Delectus inventore ducimus dolores maiores odio nulla sint, tempora
+            necessitatibus soluta ab doloribus sed eaque voluptas provident
+            dolore praesentium, quasi et consequuntur aperiam sapiente accusamus
+            excepturi eveniet recusandae ipsam! Ipsam optio praesentium
+            accusamus voluptatibus deleniti? Officiis reprehenderit atque, autem
+            laboriosam, maxime alias rerum eligendi magnam quia quod suscipit.
+            Sit, aspernatur. Quidem, perferendis.
+          </p>
+        </div>
+      </main>
+    </>
   )
 }
