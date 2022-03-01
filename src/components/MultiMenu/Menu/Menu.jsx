@@ -17,19 +17,23 @@ export const Menu = ({ menu, depth = 0 }) => {
       {menu.items.map((item, idx) => {
         const { label, renderLabel, render, submenu, displayType = null } = item
         const isActive = label === activeMenu
+
+        function handleMouseEnter(event) {
+          if (isActive) return
+          setMenu(label, depth, event.target)
+        }
+
         return (
           <li
             key={idx}
             className={cn('menu-item', { 'menu-item--active': isActive })}
-            // need to leave the entire window not the button itself
-            onMouseLeave={event => setMenu(null, depth, null)}
           >
             <button
               className='menu-item__btn'
               aria-haspopup='menu'
               aria-expanded={isActive}
               onClick={event => setMenu(label, depth, event.target)}
-              onMouseEnter={event => setMenu(label, depth, event.target)}
+              onMouseEnter={handleMouseEnter}
             >
               {renderLabel ? renderLabel() : label}
             </button>

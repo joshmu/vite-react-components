@@ -118,13 +118,18 @@ export const Header = () => {
     setActiveMenu(current => (current === label ? null : label))
   }
 
+  function handleHeaderLeave() {
+    setMenu(null, 0, null)
+    setTheme(THEME.dark)
+  }
+
   return (
     <HeaderContext.Provider value={{ isMobileView, activeMenu, setMenu }}>
       <div className={cn('header-wrapper', 'base--theme')}>
         <header
           ref={headerRef}
           onMouseEnter={() => setTheme(THEME.light)}
-          onMouseLeave={() => setTheme(THEME.dark)}
+          onMouseLeave={handleHeaderLeave}
           className={cn('header', `theme--${theme}`)}
         >
           <div className='logo'>LOGO</div>
