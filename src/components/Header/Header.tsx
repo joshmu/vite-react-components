@@ -136,6 +136,7 @@ export const Header = () => {
 
           {/* primary menu */}
           <nav
+            aria-label='primary-navigation'
             className={cn('primary-menu', {
               'primary-menu-mobile': isMobileView,
             })}
@@ -150,7 +151,7 @@ export const Header = () => {
           </nav>
 
           {/* secondary menu */}
-          <nav className='secondary-menu'>
+          <nav aria-label='secondary-navigation' className='secondary-menu'>
             <Menu menu={secondaryMenuData} />
           </nav>
 

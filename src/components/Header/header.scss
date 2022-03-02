@@ -144,10 +144,12 @@
 
   background-color: var(--h-bg-color);
 
+  transition: 0.3s all ease-in-out;
+
   &.menu-item--display-type-sidebar {
     /* toggle between 100vw vs 30vw for primary and secondary */
-    width: 25vw; /* width of the menu */
-    min-height: 80vh;
+    width: max(25vw, 300px); /* width of the menu */
+    min-height: 100vh;
   }
 }
 
@@ -191,7 +193,7 @@
   }
 }
 
-// todo: remove this temp
+// todo: temp
 .lorem-block {
   padding: 3rem;
 
@@ -209,4 +211,24 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+// ! not used
+// need to remove  hidden: !isActive, class from menu-item-display in react
+@mixin menu-item-display-animation {
+  .menu-item {
+    &:hover,
+    &:focus-within {
+      .menu-item__display {
+        opacity: 1;
+        // transform: translate3d(0, 0, 0);
+        visibility: visible;
+      }
+    }
+  }
+  .menu-item__display {
+    opacity: 0;
+    visibility: hidden;
+    // transform: translate3d(0, -100%, 0);
+  }
 }

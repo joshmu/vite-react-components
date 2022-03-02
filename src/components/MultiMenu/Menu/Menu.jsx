@@ -30,7 +30,7 @@ export const Menu = ({ menu, depth = 0 }) => {
           >
             <button
               className='menu-item__btn'
-              aria-haspopup='menu'
+              aria-haspopup={Boolean(render)}
               aria-expanded={isActive}
               onClick={event => setMenu(label, depth, event.target)}
               onMouseEnter={handleMouseEnter}
