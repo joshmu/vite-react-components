@@ -12,6 +12,8 @@ import { useHeaderContext } from '../../Header/Header'
 export const Menu = ({ items, depth = 0 }) => {
   const { setMenu, activeMenu } = useHeaderContext()
 
+  if (!items?.length) return null
+
   return (
     <ul className={cn('menu-list', `menu-list-depth-${depth}`)}>
       {items.map((item, idx) => {
