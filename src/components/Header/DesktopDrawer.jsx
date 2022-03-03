@@ -2,7 +2,13 @@ import cn from 'classnames'
 import React, { useMemo } from 'react'
 import { useHeaderContext } from './Header'
 
-export const DesktopDrawer = ({ isActive, items }) => {
+// todo: do the same but for 'aside' sidebar
+export const DesktopDrawer = ({ activeMenu, items }) => {
+  const isActive = useMemo(
+    () => items.some(item => item.label === activeMenu),
+    [activeMenu, items]
+  )
+
   return (
     <div
       className={cn('drawer', { 'drawer--active': isActive })}

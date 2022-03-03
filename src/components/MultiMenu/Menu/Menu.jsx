@@ -9,12 +9,12 @@ import { useHeaderContext } from '../../Header/Header'
  * @param {number} props.depth menu depth
  * @returns
  */
-export const Menu = ({ menu, depth = 0 }) => {
+export const Menu = ({ items, depth = 0 }) => {
   const { setMenu, activeMenu } = useHeaderContext()
 
   return (
     <ul className={cn('menu-list', `menu-list-depth-${depth}`)}>
-      {menu.items.map((item, idx) => {
+      {items.map((item, idx) => {
         const { label, renderLabel, render, submenu, displayType = null } = item
         const isActive = label === activeMenu
 

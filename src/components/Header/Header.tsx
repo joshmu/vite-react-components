@@ -25,29 +25,56 @@ const THEME = {
   light: 'light',
 }
 
-const primaryMenuData = {
+const MENU = {
   items: [
-    { label: 'one', path: '/one', render: idx => <One /> },
-    { label: 'two', path: '/two', render: idx => <Two /> },
-    { label: 'three', path: '/three', render: idx => <Three /> },
-    { label: 'four', path: '/four', render: idx => <Four /> },
-  ],
-}
-
-const secondaryMenuData = {
-  items: [
-    { label: '(1)', path: '/one', render: idx => <One /> },
     {
+      type: 'primary',
+      displayType: 'drawer',
+      label: 'one',
+      path: '/one',
+      render: idx => <One />,
+    },
+    {
+      type: 'primary',
+      displayType: 'drawer',
+      label: 'two',
+      path: '/two',
+      render: idx => <Two />,
+    },
+    {
+      type: 'primary',
+      displayType: 'drawer',
+      label: 'three',
+      path: '/three',
+      render: idx => <Three />,
+    },
+    {
+      type: 'primary',
+      displayType: 'drawer',
+      label: 'four',
+      path: '/four',
+      render: idx => <Four />,
+    },
+    {
+      type: 'secondary',
+      displayType: 'drawer',
+      label: '(1)',
+      path: '/one',
+      render: idx => <One />,
+    },
+    {
+      type: 'secondary',
+      displayType: 'sidebar',
       label: '(2)',
       path: '/two',
       render: idx => <Two />,
-      displayType: 'sidebar',
     },
     {
+      type: 'secondary',
+      displayType: 'sidebar',
       label: '(3)',
       path: '/three',
       render: idx => <Three />,
-      displayType: 'sidebar',
     },
   ],
 }
@@ -147,18 +174,22 @@ export const Header = () => {
                 <MobileMenu menu={mobileMenuData} />
               </Hamburger>
             ) : (
-              <Menu menu={primaryMenuData} />
+              <Menu
+                items={MENU.items.filter(item => item.type === 'primary')}
+              />
             )}
           </nav>
 
           <DesktopDrawer
-            isActive={Boolean(activeMenu)}
-            items={primaryMenuData.items}
+            activeMenu={activeMenu}
+            items={MENU.items.filter(item => item.displayType === 'drawer')}
           />
 
           {/* secondary menu */}
           <nav aria-label='secondary-navigation' className='secondary-menu'>
-            <Menu menu={secondaryMenuData} />
+            <Menu
+              items={MENU.items.filter(item => item.type === 'secondary')}
+            />
           </nav>
 
           <FocusAnimation target={focusTarget} />
