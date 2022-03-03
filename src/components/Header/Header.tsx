@@ -18,7 +18,7 @@ import cn from 'classnames'
 import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
 import { Overlay } from './Overlay'
-import { DesktopDrawer } from './DesktopDrawer'
+import { DisplayPanel } from './DisplayPanel'
 
 const THEME = {
   dark: 'dark',
@@ -180,9 +180,14 @@ export const Header = () => {
             )}
           </nav>
 
-          <DesktopDrawer
+          <DisplayPanel
             activeMenu={activeMenu}
             items={MENU.items.filter(item => item.displayType === 'drawer')}
+          />
+          <DisplayPanel
+            activeMenu={activeMenu}
+            items={MENU.items.filter(item => item.displayType === 'sidebar')}
+            type='sidebar'
           />
 
           {/* secondary menu */}

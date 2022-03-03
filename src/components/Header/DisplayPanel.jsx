@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { useHeaderContext } from './Header'
 
 // todo: do the same but for 'aside' sidebar
-export const DesktopDrawer = ({ activeMenu, items }) => {
+export const DisplayPanel = ({ activeMenu, items, type = 'drawer' }) => {
   const isActive = useMemo(
     () => items.some(item => item.label === activeMenu),
     [activeMenu, items]
@@ -11,25 +11,25 @@ export const DesktopDrawer = ({ activeMenu, items }) => {
 
   return (
     <div
-      className={cn('drawer', { 'drawer--active': isActive })}
+      className={cn('panel', `panel-${type}`, { 'panel--active': isActive })}
       aria-hidden={!isActive}
       aria-expanded={isActive}
     >
       <ul>
         {items.map((item, idx) => (
-          <DrawerItem key={idx} item={item} />
+          <DisplayPanelItem key={idx} item={item} />
         ))}
       </ul>
     </div>
   )
 }
 
-export const DrawerItem = ({ item }) => {
+export const DisplayPanelItem = ({ item }) => {
   const { activeMenu } = useHeaderContext()
   const { render, label } = item
   const isActive = useMemo(() => label === activeMenu, [activeMenu, label])
   return (
-    <li className={cn('drawer-item', { 'drawer-item--active': isActive })}>
+    <li className={cn('panel-item', { 'panel-item--active': isActive })}>
       {render()}
     </li>
   )
