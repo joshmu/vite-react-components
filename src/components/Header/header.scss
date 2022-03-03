@@ -154,7 +154,9 @@
 }
 
 .hidden {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, -100%, 0);
 }
 
 .focus-animation {
@@ -231,4 +233,53 @@
     visibility: hidden;
     // transform: translate3d(0, -100%, 0);
   }
+}
+
+.drawer {
+  color: var(--h-color);
+  background-color: var(--h-bg-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-top: var(--header-height);
+  min-height: max(40vh, 440px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  pointer-events: none;
+  transition: 0.3s all ease-in-out;
+}
+.drawer--active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+}
+.drawer-item {
+  color: var(--h-color);
+  background-color: var(--h-bg-color);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s all ease-in-out;
+  opacity: 0;
+  transform: translate3d(10px, 0, 0);
+}
+.drawer-item--active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }

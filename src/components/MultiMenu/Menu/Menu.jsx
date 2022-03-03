@@ -40,7 +40,7 @@ export const Menu = ({ menu, depth = 0 }) => {
 
             {submenu?.length && <Menu menu={submenu} depth={--depth} />}
 
-            {render && (
+            {/* {render && (
               <div
                 className={cn('menu-item__display', {
                   [`menu-item--display-type-${displayType}`]: displayType,
@@ -50,7 +50,7 @@ export const Menu = ({ menu, depth = 0 }) => {
               >
                 {render(idx)}
               </div>
-            )}
+            )} */}
           </li>
         )
       })}

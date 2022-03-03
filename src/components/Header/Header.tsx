@@ -18,6 +18,7 @@ import cn from 'classnames'
 import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
 import { Overlay } from './Overlay'
+import { DesktopDrawer } from './DesktopDrawer'
 
 const THEME = {
   dark: 'dark',
@@ -149,6 +150,11 @@ export const Header = () => {
               <Menu menu={primaryMenuData} />
             )}
           </nav>
+
+          <DesktopDrawer
+            isActive={Boolean(activeMenu)}
+            items={primaryMenuData.items}
+          />
 
           {/* secondary menu */}
           <nav aria-label='secondary-navigation' className='secondary-menu'>
