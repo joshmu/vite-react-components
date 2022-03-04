@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { createContext, useContext, useRef, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { Menu } from '../MultiMenu/Menu/Menu'
 import { Hamburger } from './Hamburger'
@@ -19,7 +13,11 @@ import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
 import { Overlay } from './Overlay'
 import { DisplayPanel } from './DisplayPanel'
-import { useHeaderActive } from './useHeaderActive'
+import {
+  useHeaderActive,
+  useHeaderActiveOnceScrolled,
+  useHeaderRevealed,
+} from './useHeaderActive'
 import { useActiveTheme } from './useActiveTheme'
 
 const THEME = {
@@ -131,9 +129,16 @@ export const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string>()
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
   const [theme, setTheme] = useState(THEME.dark)
-  const { isActive } = useHeaderActive(activeMenu)
+  const { isActive, setIsActive } = useHeaderActive(activeMenu)
 
-  useActiveTheme({ activeTheme: THEME.light, theme, setTheme, isActive })
+  const { isRevealed } = useHeaderRevealed()
+  useHeaderActiveOnceScrolled(setIsActive, isRevealed)
+  useActiveTheme({
+    activeTheme: THEME.light,
+    theme,
+    setTheme,
+    isActive,
+  })
   // used for click outside header
   useClickAway(headerRef, () => setMenu(''))
   // used for Esc key when header is active
@@ -160,7 +165,11 @@ export const Header = () => {
 
   return (
     <HeaderContext.Provider value={value}>
-      <div className={cn('header-wrapper', 'base--theme')}>
+      <div
+        className={cn('header-wrapper', 'base--theme', {
+          'header-wrapper--active': isRevealed,
+        })}
+      >
         <header
           ref={headerRef}
           onMouseEnter={() => setTheme(THEME.light)}
@@ -206,6 +215,8 @@ export const Header = () => {
 
           <FocusAnimation target={focusTarget} />
         </header>
+
+        {/* only active when a menu item is active */}
         <Overlay active={Boolean(activeMenu)} />
       </div>
     </HeaderContext.Provider>
