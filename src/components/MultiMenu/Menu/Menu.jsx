@@ -15,7 +15,7 @@ export const Menu = ({ items, depth = 0 }) => {
   if (!items?.length) return null
 
   return (
-    <ul className={cn('menu-list', `menu-list-depth-${depth}`)}>
+    <ul className={cn('menu-list', `menu-list-depth-${depth}`)} role='menubar'>
       {items.map((item, idx) => {
         const { label, renderLabel, render, submenu, displayType = null } = item
         const isActive = label === activeMenu
@@ -29,30 +29,29 @@ export const Menu = ({ items, depth = 0 }) => {
           <li
             key={idx}
             className={cn('menu-item', { 'menu-item--active': isActive })}
+            aria-haspopup={Boolean(render)}
+            aria-expanded={isActive}
+            role='menuitem'
           >
             <button
               className='menu-item__btn'
-              aria-haspopup={Boolean(render)}
-              aria-expanded={isActive}
               onClick={event => setMenu(label, depth, event.target)}
               onMouseEnter={handleMouseEnter}
             >
               {renderLabel ? renderLabel() : label}
             </button>
 
-            {submenu?.length && <Menu menu={submenu} depth={--depth} />}
-
-            {/* {render && (
+            {render && (
               <div
                 className={cn('menu-item__display', {
                   [`menu-item--display-type-${displayType}`]: displayType,
-                  hidden: !isActive,
+                  'menu-item__display--active': isActive,
                 })}
-                aria-expanded={!isActive}
+                aria-expanded={isActive}
               >
                 {render(idx)}
               </div>
-            )} */}
+            )}
           </li>
         )
       })}

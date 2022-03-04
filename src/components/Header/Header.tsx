@@ -19,6 +19,8 @@ import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
 import { Overlay } from './Overlay'
 import { DisplayPanel } from './DisplayPanel'
+import { useHeaderActive } from './useHeaderActive'
+import { useActiveTheme } from './useActiveTheme'
 
 const THEME = {
   dark: 'dark',
@@ -112,6 +114,7 @@ const mobileMenuData = {
 }
 
 const initial = {
+  isActive: false,
   isMobileView: true,
   activeMenus: null,
   setMenu: (label: string, depth?: number, target?: EventTarget) => {},
@@ -128,16 +131,13 @@ export const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string>()
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
   const [theme, setTheme] = useState(THEME.dark)
+  const { isActive } = useHeaderActive(activeMenu)
 
+  useActiveTheme({ activeTheme: THEME.light, theme, setTheme, isActive })
   // used for click outside header
   useClickAway(headerRef, () => setMenu(''))
   // used for Esc key when header is active
   useEscapeKey(() => setMenu(''))
-
-  // activate the light theme upon any interaction
-  useEffect(() => {
-    if (activeMenu && theme !== THEME.light) setTheme(THEME.light)
-  }, [activeMenu, theme])
 
   // todo: currently is only handling single menu display at a time
   function setMenu(label: string, depth?: number, target?: EventTarget) {
@@ -151,8 +151,15 @@ export const Header = () => {
     setTheme(THEME.dark)
   }
 
+  const value = {
+    isActive,
+    isMobileView,
+    activeMenu,
+    setMenu,
+  }
+
   return (
-    <HeaderContext.Provider value={{ isMobileView, activeMenu, setMenu }}>
+    <HeaderContext.Provider value={value}>
       <div className={cn('header-wrapper', 'base--theme')}>
         <header
           ref={headerRef}
@@ -180,7 +187,7 @@ export const Header = () => {
             )}
           </nav>
 
-          <DisplayPanel
+          {/* <DisplayPanel
             activeMenu={activeMenu}
             items={MENU.items.filter(item => item.displayType === 'drawer')}
           />
@@ -188,7 +195,7 @@ export const Header = () => {
             activeMenu={activeMenu}
             items={MENU.items.filter(item => item.displayType === 'sidebar')}
             type='sidebar'
-          />
+          /> */}
 
           {/* secondary menu */}
           <nav aria-label='secondary-navigation' className='secondary-menu'>
