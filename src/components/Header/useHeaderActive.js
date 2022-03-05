@@ -56,17 +56,25 @@ export const useHeaderActiveOnceScrolled = (
   isRevealed,
   waitMs = 300
 ) => {
+  // allow logic to run only when header is out of view (hidden)
+  const [notReady, setNotReady] = useState(true)
+  // represents header has been activated due to scroll and now this hook is no longer required
   const doneRef = useRef(false)
-  const [disabled, setDisabled] = useState(false)
+
+  // check whether the header has had a chance to hide, upon which the header can remain active from then on
+  useEffect(() => {
+    if (!isRevealed && notReady) {
+      // accommodate for transition time
+      setTimeout(function () {
+        setNotReady(false)
+      }, waitMs)
+    }
+  }, [isRevealed, notReady])
+
   // scroll support to activate
   useEffect(() => {
-    if (disabled) return
-    // if it is currently revealed don't do anything to disturb the UI
-    // this should stay disabled for minimum of 0.3s to accommodate for transitions
-    if (isRevealed) {
-      setDisabled(true)
-      return
-    }
+    if (notReady) return
+    if (doneRef.current) return
 
     function handleScroll() {
       const { scrollY } = window
@@ -79,18 +87,8 @@ export const useHeaderActiveOnceScrolled = (
       }
     }
 
-    if (doneRef.current) return
     window.addEventListener('scroll', handleScroll)
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isRevealed, disabled])
-
-  // timeout
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDisabled(false)
-    }, waitMs)
-
-    return () => clearTimeout(timer)
-  }, [disabled])
+  }, [isRevealed])
 }

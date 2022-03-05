@@ -1,0 +1,78 @@
+.mobile-panel__wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // needs to incrementally update based on depth and active state
+  transform: translate3d(0, 0, 0);
+
+  transition: 0.3s all ease-in-out;
+}
+
+.mobile-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  display: none;
+  &--active {
+    display: flex;
+  }
+}
+
+// custom for every depth
+.mobile-panel--depth-0 {
+  background-color: lightskyblue;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, 0);
+}
+.mobile-panel--depth-1 {
+  background-color: lightsalmon;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  transform: translate3d(100%, 0, 0);
+}
+.mobile-panel--depth-2 {
+  background-color: lightcyan;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  transform: translate3d(100%, 0, 0);
+}
+
+.mobile-panel__list {
+  list-style: none;
+}
+
+.mobile-panel__list-item {
+  padding: 1rem;
+}
+
+// dynamic based on <id> provided to the item
+.mobile-panel__list-item--0 {
+}
+.mobile-panel__list-item--2 {
+}
+.mobile-panel__list-item--id {
+}
+
+.mobile-panel__list-item-link {
+  color: var(--h-color);
+  text-decoration: none;
+}

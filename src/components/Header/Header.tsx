@@ -9,10 +9,8 @@ import { useClickAway } from './useClickAway'
 import './header.scss'
 import { useEscapeKey } from './useEscapeKey'
 import cn from 'classnames'
-import { MobileMenu } from '../MultiMenu/Menu/MobileMenu'
 import { FocusAnimation } from './FocusAnimation'
 import { Overlay } from './Overlay'
-import { DisplayPanel } from './DisplayPanel'
 import {
   useHeaderActive,
   useHeaderActiveOnceScrolled,
