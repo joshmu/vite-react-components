@@ -16,6 +16,7 @@ export const useMobilePanelContext = () => useContext(MobilePanelContext)
 
 export const MobilePanel = ({ menu }) => {
   const [activePanels, setActivePanels] = useState([{ id: 0, depth: 0 }])
+  const [prevVisitedPanel, setPrevVisitedPanel] = useState({ id: 0, depth: 0 })
   const [style, setStyle] = useState({ transform: 'translate3d(0, 0, 0)' })
 
   useEffect(() => {
@@ -32,6 +33,8 @@ export const MobilePanel = ({ menu }) => {
     menu,
     activePanels,
     setActivePanels,
+    prevVisitedPanel,
+    setPrevVisitedPanel,
   }
 
   return (
@@ -45,17 +48,27 @@ export const MobilePanel = ({ menu }) => {
 
 export const MobilePanelList = ({ menu, depth = 0 }) => {
   const { items = [], id } = menu
-  const { activePanels } = useMobilePanelContext()
+  const { activePanels, prevVisitedPanel } = useMobilePanelContext()
 
   const isActive = useMemo(() => {
     const currentPanel = activePanels[activePanels.length - 1]
     return currentPanel.id === id || depth < currentPanel.depth
   }, [activePanels, depth, id])
 
+  const isHiddenActive = useMemo(() => prevVisitedPanel.id === id, [
+    prevVisitedPanel,
+    id,
+  ])
+
+  if (isHiddenActive) {
+    console.log(`prev visited panel is: ${id}`)
+  }
+
   return (
     <div
       className={cn('mobile-panel', `mobile-panel--depth-${depth}`, {
         'mobile-panel--active': isActive,
+        'mobile-panel--hidden-active': isHiddenActive,
       })}
     >
       <MobilePanelBackBtn depth={depth} />
@@ -69,12 +82,19 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
 }
 
 export const MobilePanelBackBtn = ({ depth = 0 }) => {
-  const { setActivePanels } = useMobilePanelContext()
+  const {
+    activePanels,
+    setActivePanels,
+    setPrevVisitedPanel,
+  } = useMobilePanelContext()
 
   if (!depth) return null
 
   function handleClick() {
-    setActivePanels(panels => panels.slice(0, panels.length - 1))
+    const updatedPanels = activePanels.slice(0, -1)
+    const prevVisitedPanel = activePanels[activePanels.length - 1]
+    setActivePanels(updatedPanels)
+    setPrevVisitedPanel(prevVisitedPanel)
   }
 
   return (

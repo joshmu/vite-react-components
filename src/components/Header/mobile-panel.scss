@@ -13,14 +13,23 @@
 }
 
 .mobile-panel {
-  position: relative;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
+  width: 100%;
+
   justify-content: center;
   align-items: center;
 
   display: none;
+  pointer-events: none;
+
   &--active {
+    display: flex;
+    pointer-events: auto;
+  }
+  &--hidden-active {
     display: flex;
   }
 }
@@ -28,31 +37,14 @@
 // custom for every depth
 .mobile-panel--depth-0 {
   background-color: lightskyblue;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
   transform: translate3d(0, 0, 0);
 }
 .mobile-panel--depth-1 {
   background-color: lightsalmon;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-
   transform: translate3d(100%, 0, 0);
 }
 .mobile-panel--depth-2 {
   background-color: lightcyan;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-
   transform: translate3d(100%, 0, 0);
 }
 
