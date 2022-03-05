@@ -53,6 +53,8 @@
 }
 
 .mobile-panel__list-item {
+  border: 0;
+  background-color: transparent;
   padding: 1rem;
 }
 
@@ -64,7 +66,20 @@
 .mobile-panel__list-item--id {
 }
 
-.mobile-panel__list-item-link {
+.mobile-panel__list-item-action-action {
   color: var(--h-color);
   text-decoration: none;
+}
+.mobile-panel__list-item-action-link {
+}
+.mobile-panel__list-item-action-btn {
+  border: 0;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+.mobile-panel__back-btn {
+  border: 0;
+  background-color: transparent;
+  font-size: 1rem;
 }

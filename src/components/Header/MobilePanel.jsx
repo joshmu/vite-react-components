@@ -16,12 +16,11 @@ export const useMobilePanelContext = () => useContext(MobilePanelContext)
 
 export const MobilePanel = ({ menu }) => {
   const [activePanels, setActivePanels] = useState([{ id: 0, depth: 0 }])
-  const [prevVisitedPanel, setPrevVisitedPanel] = useState({ id: 0, depth: 0 })
+  const [prevVisitedPanel, setPrevVisitedPanel] = useState({})
   const [style, setStyle] = useState({ transform: 'translate3d(0, 0, 0)' })
 
   useEffect(() => {
     if (!activePanels?.length) return
-    console.log({ activePanels })
     // change translation of wrapper based on 'depth' of active panel
     const currentPanel = activePanels[activePanels.length - 1]
     setStyle(() => ({
@@ -60,28 +59,30 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
     id,
   ])
 
-  if (isHiddenActive) {
-    console.log(`prev visited panel is: ${id}`)
-  }
-
   return (
     <div
       className={cn('mobile-panel', `mobile-panel--depth-${depth}`, {
         'mobile-panel--active': isActive,
         'mobile-panel--hidden-active': isHiddenActive,
       })}
+      aria-expanded={isActive}
     >
-      <MobilePanelBackBtn depth={depth} />
+      <MobilePanelBackBtn depth={depth} tabIndex={isHiddenActive && -1} />
       <ul className='mobile-panel__list'>
         {items.map((item, idx) => (
-          <MobilePanelItem item={item} key={idx} depth={depth} />
+          <MobilePanelItem
+            item={item}
+            key={idx}
+            depth={depth}
+            tabIndex={isHiddenActive && -1}
+          />
         ))}
       </ul>
     </div>
   )
 }
 
-export const MobilePanelBackBtn = ({ depth = 0 }) => {
+export const MobilePanelBackBtn = ({ depth = 0, tabIndex = 1 }) => {
   const {
     activePanels,
     setActivePanels,
@@ -98,16 +99,25 @@ export const MobilePanelBackBtn = ({ depth = 0 }) => {
   }
 
   return (
-    <a onClick={handleClick} role='button' href='#'>
-      Back
-    </a>
+    <button
+      className='mobile-panel__back-btn'
+      onClick={handleClick}
+      tabIndex={tabIndex}
+    >
+      - Back
+    </button>
   )
 }
 
-export const MobilePanelItem = ({ item, depth }) => {
-  const { id, label, items = [], path = '#' } = item
+export const MobilePanelItem = ({ item, depth, tabIndex = 1 }) => {
+  const { id, label, items = [], path } = item
+  const { setActivePanels, activePanels } = useMobilePanelContext()
+
   const hasSubmenu = useMemo(() => Boolean(items?.length), [items])
-  const { setActivePanels } = useMobilePanelContext()
+  const isActive = useMemo(() => activePanels.some(panel => panel.id === id), [
+    activePanels,
+    id,
+  ])
 
   function handleClick() {
     setActivePanels(panels => [...panels, { id, depth }])
@@ -119,15 +129,33 @@ export const MobilePanelItem = ({ item, depth }) => {
         'mobile-panel__list-item',
         `mobile-panel__list-item--${id}`
       )}
+      aria-haspopup={Boolean(hasSubmenu)}
+      aria-expanded={isActive}
+      role='menuitem'
     >
-      <a
-        role='button'
-        onClick={handleClick}
-        className='mobile-panel__list-item-link'
-        href={path}
-      >
-        {label} {hasSubmenu && <span>+</span>}
-      </a>
+      {path ? (
+        <a
+          className={cn(
+            'mobile-panel__list-item-action',
+            'mobile-panel__list-item-action-link'
+          )}
+          href={path}
+          tabIndex={tabIndex}
+        >
+          {label}
+        </a>
+      ) : (
+        <button
+          onClick={handleClick}
+          className={cn(
+            'mobile-panel__list-item-action',
+            'mobile-panel__list-item-action-btn'
+          )}
+          tabIndex={tabIndex}
+        >
+          {label} {hasSubmenu && <span>+</span>}
+        </button>
+      )}
 
       {hasSubmenu && <MobilePanelList menu={item} depth={++depth} />}
     </li>

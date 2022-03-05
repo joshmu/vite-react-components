@@ -86,25 +86,25 @@ const mobileMenuData = {
       id: 1,
       label: 'one',
       items: [
-        { id: 11, label: 'one-one' },
-        { id: 12, label: 'one-two' },
+        { id: 11, label: 'one-one', path: '/#' },
+        { id: 12, label: 'one-two', path: '/#' },
       ],
     },
     {
       id: 2,
       label: 'two',
       items: [
-        { id: 21, label: 'two-one' },
-        { id: 22, label: 'two-two' },
+        { id: 21, label: 'two-one', path: '/#' },
+        { id: 22, label: 'two-two', path: '/#' },
         {
           id: 23,
           label: 'two-three',
           items: [
-            { id: 231, label: 'two-three-one' },
-            { id: 232, label: 'two-three-two' },
+            { id: 231, label: 'two-three-one', path: '/#' },
+            { id: 232, label: 'two-three-two', path: '/#' },
           ],
         },
-        { id: 24, label: 'two-four' },
+        { id: 24, label: 'two-four', path: '/#' },
       ],
     },
   ],
