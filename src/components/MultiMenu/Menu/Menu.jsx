@@ -7,9 +7,10 @@ import { useHeaderContext } from '../../Header/Header'
  * @param {object} props props
  * @param {{items: {label: string, renderLabel?: function, path: string, render: function, submenu: *, displayType?: string}[]}} props.menu menu
  * @param {number} props.depth menu depth
+ * @param {'default' | 'sidebar' | 'fullscreen'} props.panelType menu display type
  * @returns
  */
-export const Menu = ({ items, depth = 0 }) => {
+export const Menu = ({ items, depth = 0, panelType = 'default' }) => {
   const { setMenu, activeMenu } = useHeaderContext()
 
   if (!items?.length) return null
@@ -17,7 +18,13 @@ export const Menu = ({ items, depth = 0 }) => {
   return (
     <ul className={cn('menu-list', `menu-list-depth-${depth}`)} role='menubar'>
       {items.map((item, idx) => {
-        const { label, renderLabel, render, submenu, displayType = null } = item
+        const {
+          label,
+          renderLabel,
+          render,
+          submenu,
+          displayType = panelType,
+        } = item
         const isActive = label === activeMenu
 
         function handleMouseEnter(event) {

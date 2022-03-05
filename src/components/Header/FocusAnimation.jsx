@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 // based on the target get the position and apply it to the focus animation element
+// todo: should store ref of all the points so when state updates we can target associated ref rather than rely on direct interaction of DOM elem
 
 export const FocusAnimation = ({ target }) => {
   const targetRef = useRef(null)

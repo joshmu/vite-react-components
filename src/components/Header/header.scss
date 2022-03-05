@@ -143,7 +143,7 @@
 .menu-item__display {
   // todo: put back
   margin-top: var(--header-height); /* height of the header */
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   display: flex;
@@ -173,6 +173,13 @@
     /* toggle between 100vw vs 30vw for primary and secondary */
     width: max(25vw, 300px); /* width of the menu */
     min-height: 100vh;
+  }
+  &.menu-item--display-type-fullscreen {
+    /* toggle between 100vw vs 30vw for primary and secondary */
+    width: 100vw; /* width of the menu */
+    height: 100vh !important;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   &--active {

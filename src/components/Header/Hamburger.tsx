@@ -7,6 +7,7 @@ export const Hamburger: React.FC = ({ children }) => {
     renderLabel: () => <div>-=-</div>,
     path: '/one',
     render: () => children,
+    displayType: 'fullscreen',
   }
 
   return <Menu items={[hamburgerData]} />

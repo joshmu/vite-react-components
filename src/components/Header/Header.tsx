@@ -19,6 +19,7 @@ import {
   useHeaderRevealed,
 } from './useHeaderActive'
 import { useActiveTheme } from './useActiveTheme'
+import { MobilePanel } from './MobilePanel'
 
 const THEME = {
   dark: 'dark',
@@ -126,12 +127,12 @@ export const useHeaderContext = () => useContext(HeaderContext)
 export const Header = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
-  const [activeMenu, setActiveMenu] = useState<string>()
+  const [activeMenu, setActiveMenu] = useState<string>('hamburger')
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
   const [theme, setTheme] = useState(THEME.dark)
   const { isActive, setIsActive } = useHeaderActive(activeMenu)
 
-  const { isRevealed } = useHeaderRevealed()
+  const { isRevealed } = useHeaderRevealed({ activeMenu })
   useHeaderActiveOnceScrolled(setIsActive, isRevealed)
   useActiveTheme({
     activeTheme: THEME.light,
@@ -187,7 +188,8 @@ export const Header = () => {
           >
             {isMobileView ? (
               <Hamburger>
-                <MobileMenu menu={mobileMenuData} />
+                {/* <MobileMenu menu={mobileMenuData} /> */}
+                <MobilePanel menu={mobileMenuData} />
               </Hamburger>
             ) : (
               <Menu
