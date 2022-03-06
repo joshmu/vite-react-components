@@ -130,13 +130,13 @@ export const useHeaderContext = () => useContext(HeaderContext)
 export const Header = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
-  const [activeMenu, setActiveMenu] = useState<string>('hamburger')
+  const [activeMenu, setActiveMenu] = useState<string>('two')
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
   const [theme, setTheme] = useState(THEME.dark)
   const { isActive, setIsActive } = useHeaderActive(activeMenu)
 
   const { isRevealed } = useHeaderRevealed({ activeMenu })
-  useHeaderActiveOnceScrolled(setIsActive, isRevealed)
+  useHeaderActiveOnceScrolled({ setIsActive, isRevealed, activeMenu })
   useActiveTheme({
     activeTheme: THEME.light,
     theme,

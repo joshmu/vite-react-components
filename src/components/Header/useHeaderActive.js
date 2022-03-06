@@ -31,8 +31,8 @@ export const useHeaderRevealed = ({ activeMenu }) => {
           setIsRevealed(true)
         }
       } else {
-        // persist menu if mobile menu is open
-        if (activeMenu === 'hamburger') return
+        // persist if menu is open
+        if (activeMenu) return
 
         // hide menu when user is scrolling down
         if (scrollY > scrollYRef.current) {
@@ -51,11 +51,12 @@ export const useHeaderRevealed = ({ activeMenu }) => {
   return { isRevealed }
 }
 
-export const useHeaderActiveOnceScrolled = (
+export const useHeaderActiveOnceScrolled = ({
   setIsActive,
   isRevealed,
-  waitMs = 300
-) => {
+  activeMenu,
+  waitMs = 300,
+}) => {
   // allow logic to run only when header is out of view (hidden)
   const [notReady, setNotReady] = useState(true)
   // represents header has been activated due to scroll and now this hook is no longer required
@@ -75,6 +76,7 @@ export const useHeaderActiveOnceScrolled = (
   useEffect(() => {
     if (notReady) return
     if (doneRef.current) return
+    if (activeMenu) return
 
     function handleScroll() {
       const { scrollY } = window
@@ -90,5 +92,5 @@ export const useHeaderActiveOnceScrolled = (
     window.addEventListener('scroll', handleScroll)
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isRevealed])
+  }, [isRevealed, activeMenu])
 }
