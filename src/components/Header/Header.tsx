@@ -144,15 +144,19 @@ export const Header = () => {
     isActive,
   })
   // used for click outside header
-  useClickAway(headerRef, () => setMenu(''))
+  useClickAway(headerRef, reset)
   // used for Esc key when header is active
-  useEscapeKey(() => setMenu(''))
+  useEscapeKey(reset)
 
   // todo: currently is only handling single menu display at a time
   function setMenu(label: string, depth?: number, target?: EventTarget) {
     setFocusTarget(target)
 
     setActiveMenu(current => (current === label ? null : label))
+  }
+
+  function reset() {
+    setMenu('')
   }
 
   function handleHeaderLeave() {
@@ -181,7 +185,6 @@ export const Header = () => {
           className={cn('header', `theme--${theme}`)}
         >
           <div className='logo'>LOGO</div>
-
           {/* primary menu */}
           <nav
             aria-label='primary-navigation'
@@ -191,7 +194,6 @@ export const Header = () => {
           >
             {isMobileView ? (
               <Hamburger>
-                {/* <MobileMenu menu={mobileMenuData} /> */}
                 <MobilePanel menu={mobileMenuData} activeMenu={activeMenu} />
               </Hamburger>
             ) : (
@@ -200,7 +202,6 @@ export const Header = () => {
               />
             )}
           </nav>
-
           {/* <DisplayPanel
             activeMenu={activeMenu}
             items={MENU.items.filter(item => item.displayType === 'drawer')}
@@ -210,7 +211,6 @@ export const Header = () => {
             items={MENU.items.filter(item => item.displayType === 'sidebar')}
             type='sidebar'
           /> */}
-
           {/* secondary menu */}
           <nav aria-label='secondary-navigation' className='secondary-menu'>
             <Menu
@@ -218,7 +218,8 @@ export const Header = () => {
             />
           </nav>
 
-          <FocusAnimation target={focusTarget} />
+          {/* use focus animation only for desktop */}
+          {!isMobileView && <FocusAnimation target={focusTarget} />}
         </header>
 
         {/* only active when a menu item is active */}

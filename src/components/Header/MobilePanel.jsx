@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 
@@ -24,6 +25,7 @@ export const MobilePanel = ({
   const initialPanel = useMemo(() => ({ id: menu?.id ?? 0, depth: 0 }), [menu])
   const [activePanels, setActivePanels] = useState([initialPanel])
   const [prevVisitedPanel, setPrevVisitedPanel] = useState({})
+  const menuRef = useRef(null)
 
   const configStyle = useMemo(
     () => ({ transitionDuration: `${transitionDurationMs}ms` }),
@@ -34,7 +36,7 @@ export const MobilePanel = ({
     ...configStyle,
   })
 
-  useClickAway(reset)
+  useClickAway(menuRef, reset)
   useEscapeKey(reset)
 
   // * if active menu changes then reset
@@ -80,7 +82,7 @@ export const MobilePanel = ({
 
   return (
     <MobilePanelContext.Provider value={value}>
-      <div className='mobile-panel__wrapper' style={style}>
+      <div ref={menuRef} className='mobile-panel__wrapper' style={style}>
         <MobilePanelList menu={menu} depth={0} />
       </div>
     </MobilePanelContext.Provider>
@@ -178,31 +180,49 @@ export const MobilePanelItem = ({ item, depth }) => {
       aria-expanded={isActive}
       role='menuitem'
     >
-      {path ? (
-        <a
-          className={cn(
-            'mobile-panel__list-item-action',
-            'mobile-panel__list-item-action-link'
-          )}
-          href={path}
-        >
-          {label}
-        </a>
+      {Boolean(render) ? (
+        render()
       ) : (
-        <button
-          onClick={handleClick}
-          className={cn(
-            'mobile-panel__list-item-action',
-            'mobile-panel__list-item-action-btn'
-          )}
-        >
-          {label} {hasSubmenu && <span>+</span>}
-        </button>
+        <>
+          <MenuPanelItemAction
+            path={path}
+            label={label}
+            hasSubmenu={hasSubmenu}
+            handleClick={handleClick}
+          />
+
+          {hasSubmenu && <MobilePanelList menu={item} depth={++depth} />}
+        </>
       )}
-
-      {hasSubmenu && <MobilePanelList menu={item} depth={++depth} />}
-
-      {render && render()}
     </li>
+  )
+}
+
+export const MenuPanelItemAction = ({
+  path,
+  label,
+  hasSubmenu,
+  handleClick,
+}) => {
+  return path ? (
+    <a
+      className={cn(
+        'mobile-panel__list-item-action',
+        'mobile-panel__list-item-action-link'
+      )}
+      href={path}
+    >
+      {label}
+    </a>
+  ) : (
+    <button
+      onClick={handleClick}
+      className={cn(
+        'mobile-panel__list-item-action',
+        'mobile-panel__list-item-action-btn'
+      )}
+    >
+      {label} {hasSubmenu && <span>+</span>}
+    </button>
   )
 }
