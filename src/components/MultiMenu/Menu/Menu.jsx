@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import React, { useEffect, useState } from 'react'
 import { useHeaderContext } from '../../Header/Header'
+import '../../Header/menu-list.scss'
 
 /**
  * Menu Interface
