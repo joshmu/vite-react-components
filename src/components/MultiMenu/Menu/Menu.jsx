@@ -36,15 +36,18 @@ export const MenuItem = ({ item, depth, panelType }) => {
 
   // content active state after next tick to allow for transition state
   useEffect(() => {
-    if (!isActive && contentActive) {
-      setContentActive(false)
+    // do nothing if inactive
+    if (!isActive) {
+      // clean up content active if enabled
+      if (contentActive) setContentActive(false)
       return
     }
+    // otherwise tick delay setting content active to support css transitions
     const timer = setTimeout(() => {
       setContentActive(true)
     })
     return () => clearTimeout(timer)
-  }, [label, activeMenu, contentActive, isActive])
+  }, [contentActive, isActive])
 
   function handleMouseEnter(event) {
     if (isActive) return

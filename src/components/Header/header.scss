@@ -186,6 +186,7 @@
     height: 100vh !important;
     overflow-x: hidden;
     overflow-y: auto;
+    outline: 2px solid red;
 
     .menu-item__display-content {
       padding: 0;
@@ -205,14 +206,16 @@
     height: 100%;
     padding: 1rem; // * removed on mobile fullscreen
     opacity: 0;
-    transform: translate3d(20px, 0, 0);
+    // transform: translate3d(20px, 0, 0);
 
     &--active {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
-      transition: transform var(--h-transition-duration)
-          var(--h-transition-easing),
-        opacity var(--h-transition-duration) var(--h-transition-easing);
+      // transform: translate3d(0, 0, 0);
+      // transition: transform var(--h-transition-duration)
+      //     var(--h-transition-easing),
+      //   opacity var(--h-transition-duration) var(--h-transition-easing);
+      transition: opacity var(--h-transition-duration)
+        var(--h-transition-easing);
     }
   }
 }
