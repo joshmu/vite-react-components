@@ -27,7 +27,12 @@
 
 // brand folder touchpoint
 .base--theme {
-  --header-height: 60px;
+  --h-height: 60px;
+
+  --h-transition-duration: 0.3s;
+  --h-transition-easing: ease-in-out;
+
+  // * transition duration is overridden for the mobile panel menu on react side
 }
 
 // header themes which are applied dynamically
@@ -48,7 +53,7 @@
   pointer-events: none;
 
   transform: translate3d(0, -100%, 0);
-  transition: 0.3s all ease-in-out;
+  transition: var(--h-transition-duration) all var(--h-transition-easing);
 
   &--active {
     pointer-events: auto;
@@ -57,8 +62,8 @@
 }
 
 .header {
-  height: var(--header-height);
-  max-height: var(--header-height);
+  height: var(--h-height);
+  max-height: var(--h-height);
 
   position: relative; /* for absolute positioning of menu output */
   display: flex;
@@ -70,7 +75,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   z-index: 99;
 
-  transition: all 0.3s ease-in-out;
+  transition: all var(--h-transition-duration) var(--h-transition-easing);
 
   .logo {
     font-weight: bold;
@@ -115,7 +120,7 @@
     align-items: center;
     height: 100%;
 
-    transition: all 0.3s ease-in-out;
+    transition: all var(--h-transition-duration) var(--h-transition-easing);
 
     .menu-item__btn {
       cursor: pointer;
@@ -141,8 +146,7 @@
 
 // display output area
 .menu-item__display {
-  // todo: put back
-  margin-top: var(--header-height); /* height of the header */
+  margin-top: var(--h-height); /* height of the header */
   position: fixed;
   top: 0;
   right: 0;
@@ -167,7 +171,7 @@
   // transform: translate3d(0, -100%, 0);
   // pointer-events: none;
   // transform-origin: top center;
-  // transition: 0.3s all ease-in-out;
+  // transition: var(--header-transition-duration) all var(--header-transition-easing);
 
   &.menu-item--display-type-sidebar {
     /* toggle between 100vw vs 30vw for primary and secondary */
@@ -210,7 +214,7 @@
 
   transform: scale(0);
 
-  transition: all 0.3s ease-in-out;
+  transition: all var(--h-transition-duration) var(--h-transition-easing);
 }
 
 // overlay present when any menu is open
@@ -223,8 +227,9 @@
   background-color: rgba(0, 0, 0, 0);
   pointer-events: none;
 
-  transition: 0.3s backdrop-filter ease-in-out,
-    0.3s background-color ease-in-out;
+  transition: var(--h-transition-duration) backdrop-filter
+      var(--h-transition-easing),
+    var(--h-transition-duration) background-color var(--h-transition-easing);
 
   &--animate {
     backdrop-filter: blur(4px);
@@ -270,4 +275,26 @@
     visibility: hidden;
     // transform: translate3d(0, -100%, 0);
   }
+}
+
+// ACCESSIBILITY
+
+/*
+  If the user has expressed their preference for
+  reduced motion, then don't use transitions.
+*/
+@media (prefers-reduced-motion: reduce) {
+  // .my-element {
+  //   transition: none;
+  // }
+}
+
+/*
+  If the browser understands the media query and the user
+  explicitly hasn't set a preference, then use transitions.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  // .my-element {
+  //   transition: transform 250ms ease;
+  // }
 }

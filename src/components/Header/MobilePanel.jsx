@@ -8,16 +8,28 @@ import React, {
 } from 'react'
 
 import './mobile-panel.scss'
+import { useEscapeKey } from './useEscapeKey'
 
 // global header context to handle menu state between both primary and secondary but also output area
 const MobilePanelContext = createContext()
 
 export const useMobilePanelContext = () => useContext(MobilePanelContext)
 
-export const MobilePanel = ({ menu }) => {
-  const [activePanels, setActivePanels] = useState([{ id: 0, depth: 0 }])
+export const MobilePanel = ({ menu, transitionDurationMs = 300 }) => {
+  const initialPanel = useMemo(() => ({ id: menu?.id ?? 0, depth: 0 }), [menu])
+  const [activePanels, setActivePanels] = useState([initialPanel])
   const [prevVisitedPanel, setPrevVisitedPanel] = useState({})
-  const [style, setStyle] = useState({ transform: 'translate3d(0, 0, 0)' })
+
+  const configStyle = useMemo(
+    () => ({ transitionDuration: `${transitionDurationMs}ms` }),
+    [transitionDurationMs]
+  )
+  const [style, setStyle] = useState({
+    transform: 'translate3d(0, 0, 0)',
+    ...configStyle,
+  })
+
+  useEscapeKey(reset)
 
   useEffect(() => {
     if (!activePanels?.length) return
@@ -25,15 +37,34 @@ export const MobilePanel = ({ menu }) => {
     const currentPanel = activePanels[activePanels.length - 1]
     setStyle(() => ({
       transform: `translate3d(${currentPanel.depth * -100}%, 0, 0)`,
+      ...configStyle,
     }))
   }, [activePanels])
+
+  function reset() {
+    setActivePanels([initialPanel])
+  }
+
+  function handlePrevVisitedPanel(panel) {
+    setPrevVisitedPanel(panel)
+
+    // * after transition is complete, remove the hidden prev panel so tab order is correct
+    setTimeout(() => {
+      setPrevVisitedPanel(currentPanel => {
+        // if prev exists and timeout is complete, remove it
+        if (currentPanel.id === panel.id) return {}
+        // state may have already changed again thus do not interfere
+        return currentPanel
+      })
+    }, transitionDurationMs)
+  }
 
   const value = {
     menu,
     activePanels,
     setActivePanels,
     prevVisitedPanel,
-    setPrevVisitedPanel,
+    handlePrevVisitedPanel,
   }
 
   return (
@@ -67,49 +98,42 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
       })}
       aria-expanded={isActive}
     >
-      <MobilePanelBackBtn depth={depth} tabIndex={isHiddenActive && -1} />
+      <MobilePanelBackBtn depth={depth} />
       <ul className='mobile-panel__list'>
         {items.map((item, idx) => (
-          <MobilePanelItem
-            item={item}
-            key={idx}
-            depth={depth}
-            tabIndex={isHiddenActive && -1}
-          />
+          <MobilePanelItem item={item} key={idx} depth={depth} />
         ))}
       </ul>
     </div>
   )
 }
 
-export const MobilePanelBackBtn = ({ depth = 0, tabIndex = 1 }) => {
+export const MobilePanelBackBtn = ({ depth = 0 }) => {
   const {
     activePanels,
     setActivePanels,
-    setPrevVisitedPanel,
+    handlePrevVisitedPanel,
   } = useMobilePanelContext()
 
   if (!depth) return null
 
   function handleClick() {
     const updatedPanels = activePanels.slice(0, -1)
+    // if there are no more active panels, then exit
+    if (!updatedPanels?.length) return
     const prevVisitedPanel = activePanels[activePanels.length - 1]
     setActivePanels(updatedPanels)
-    setPrevVisitedPanel(prevVisitedPanel)
+    handlePrevVisitedPanel(prevVisitedPanel)
   }
 
   return (
-    <button
-      className='mobile-panel__back-btn'
-      onClick={handleClick}
-      tabIndex={tabIndex}
-    >
+    <button className='mobile-panel__back-btn' onClick={handleClick}>
       - Back
     </button>
   )
 }
 
-export const MobilePanelItem = ({ item, depth, tabIndex = 1 }) => {
+export const MobilePanelItem = ({ item, depth }) => {
   const { id, label, items = [], path } = item
   const { setActivePanels, activePanels } = useMobilePanelContext()
 
@@ -140,7 +164,6 @@ export const MobilePanelItem = ({ item, depth, tabIndex = 1 }) => {
             'mobile-panel__list-item-action-link'
           )}
           href={path}
-          tabIndex={tabIndex}
         >
           {label}
         </a>
@@ -151,7 +174,6 @@ export const MobilePanelItem = ({ item, depth, tabIndex = 1 }) => {
             'mobile-panel__list-item-action',
             'mobile-panel__list-item-action-btn'
           )}
-          tabIndex={tabIndex}
         >
           {label} {hasSubmenu && <span>+</span>}
         </button>

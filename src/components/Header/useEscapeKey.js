@@ -4,10 +4,9 @@ export const useEscapeKey = callback => {
   useEffect(() => {
     const handler = event => {
       if (
-        (event.key === 'Escape' ||
-          event.code === 'Escape' ||
-          event.keyCode === 27) &&
-        activeMenus?.length
+        event.key === 'Escape' ||
+        event.code === 'Escape' ||
+        event.keyCode === 27
       ) {
         callback()
       }
