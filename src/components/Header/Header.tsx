@@ -18,6 +18,7 @@ import {
 } from './useHeaderActive'
 import { useActiveTheme } from './useActiveTheme'
 import { MobilePanel } from './MobilePanel'
+import { useUpdateActiveThemeForMobile } from './useUpdateActiveThemeForMobile'
 
 const THEME = {
   dark: 'dark',
@@ -133,16 +134,26 @@ export const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string>('')
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
   const [theme, setTheme] = useState(THEME.dark)
+  // desired theme state when activated
+  const [activeTheme, setActiveTheme] = useState(THEME.light)
   const { isActive, setIsActive } = useHeaderActive(activeMenu)
 
   const { isRevealed } = useHeaderRevealed({ activeMenu })
   useHeaderActiveOnceScrolled({ setIsActive, isRevealed, activeMenu })
   useActiveTheme({
-    activeTheme: THEME.light,
+    activeTheme,
     theme,
     setTheme,
     isActive,
   })
+  // dark theme when mobile view
+  useUpdateActiveThemeForMobile({
+    isMobileView,
+    THEME,
+    theme,
+    setActiveTheme,
+  })
+
   // used for click outside header
   useClickAway(headerRef, reset)
   // used for Esc key when header is active
