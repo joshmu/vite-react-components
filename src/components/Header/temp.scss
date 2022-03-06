@@ -1,0 +1,39 @@
+.content {
+  width: 100%;
+  padding: 40px;
+  height: 100%;
+  outline: 1px solid red;
+
+  .title {
+    text-transform: capitalize;
+    outline: 1px solid red;
+  }
+  .inner-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    padding-top: 1rem;
+
+    .tiles {
+      outline: 1px solid red;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+
+      .tile {
+        background-color: lightskyblue;
+        min-height: 150px;
+        min-width: 300px;
+        border-radius: 5px;
+      }
+    }
+    .side-content {
+      outline: 1px solid red;
+      .title {
+      }
+      .list {
+        list-style: none;
+      }
+    }
+  }
+}
