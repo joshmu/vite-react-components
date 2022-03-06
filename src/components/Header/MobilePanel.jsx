@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 
 import './mobile-panel.scss'
+import { useClickAway } from './useClickAway'
 import { useEscapeKey } from './useEscapeKey'
 
 // global header context to handle menu state between both primary and secondary but also output area
@@ -15,7 +16,11 @@ const MobilePanelContext = createContext()
 
 export const useMobilePanelContext = () => useContext(MobilePanelContext)
 
-export const MobilePanel = ({ menu, transitionDurationMs = 300 }) => {
+export const MobilePanel = ({
+  menu,
+  activeMenu,
+  transitionDurationMs = 300,
+}) => {
   const initialPanel = useMemo(() => ({ id: menu?.id ?? 0, depth: 0 }), [menu])
   const [activePanels, setActivePanels] = useState([initialPanel])
   const [prevVisitedPanel, setPrevVisitedPanel] = useState({})
@@ -29,7 +34,13 @@ export const MobilePanel = ({ menu, transitionDurationMs = 300 }) => {
     ...configStyle,
   })
 
+  useClickAway(reset)
   useEscapeKey(reset)
+
+  // * if active menu changes then reset
+  useEffect(() => {
+    reset()
+  }, [activeMenu])
 
   useEffect(() => {
     if (!activePanels?.length) return

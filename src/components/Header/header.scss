@@ -158,7 +158,8 @@
   width: 100%; /* width of the menu */
   min-height: 30vh;
 
-  max-height: 100vh;
+  // * need to remove the header height from the max height for lower content area to be within screen
+  max-height: calc(100vh - var(--h-height));
   overflow-y: auto;
 
   background-color: var(--h-bg-color);

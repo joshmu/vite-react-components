@@ -27,10 +27,18 @@ export const Two = () => {
         <div className='side-content'>
           <h3 className='title'>here is a list</h3>
           <ul className='list'>
-            <li>one</li>
-            <li>two</li>
-            <li>three</li>
-            <li>four</li>
+            <li>
+              <a href='#'>one</a>
+            </li>
+            <li>
+              <a href='#'>two</a>
+            </li>
+            <li>
+              <a href='#'>three</a>
+            </li>
+            <li>
+              <a href='#'>four</a>
+            </li>
           </ul>
         </div>
       </div>

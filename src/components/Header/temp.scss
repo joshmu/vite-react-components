@@ -1,25 +1,41 @@
 .content {
   width: 100%;
-  padding: 40px;
+  padding: 1rem;
   height: 100%;
   outline: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   .title {
-    text-transform: capitalize;
+    font-size: 1rem;
+    text-transform: uppercase;
     outline: 1px solid red;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
   }
+
   .inner-content {
+    outline: 1px solid red;
+
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+    }
+
     .tiles {
+      @media (min-width: 768px) {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
       .tile {
         background-color: lightskyblue;
         min-height: 150px;
         min-width: 300px;
         border-radius: 5px;
+        margin-bottom: 1rem;
+
+        @media (min-width: 768px) {
+          margin-bottom: 0;
+        }
       }
     }
     .side-content {
@@ -32,6 +48,7 @@
     }
   }
 }
+
 // .content {
 //   width: 100%;
 //   padding: 40px;

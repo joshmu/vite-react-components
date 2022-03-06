@@ -130,7 +130,7 @@ export const useHeaderContext = () => useContext(HeaderContext)
 export const Header = () => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
-  const [activeMenu, setActiveMenu] = useState<string>('two')
+  const [activeMenu, setActiveMenu] = useState<string>('')
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
   const [theme, setTheme] = useState(THEME.dark)
   const { isActive, setIsActive } = useHeaderActive(activeMenu)
@@ -192,7 +192,7 @@ export const Header = () => {
             {isMobileView ? (
               <Hamburger>
                 {/* <MobileMenu menu={mobileMenuData} /> */}
-                <MobilePanel menu={mobileMenuData} />
+                <MobilePanel menu={mobileMenuData} activeMenu={activeMenu} />
               </Hamburger>
             ) : (
               <Menu
