@@ -19,8 +19,8 @@
   height: 100%;
   width: 100%;
 
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
 
   display: none;
   pointer-events: none;
@@ -55,7 +55,6 @@
 .mobile-panel__list-item {
   border: 0;
   background-color: transparent;
-  padding: 1rem;
 }
 
 // dynamic based on <id> provided to the item

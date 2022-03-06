@@ -98,8 +98,8 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
       })}
       aria-expanded={isActive}
     >
-      <MobilePanelBackBtn depth={depth} />
       <ul className='mobile-panel__list'>
+        <MobilePanelBackBtn depth={depth} />
         {items.map((item, idx) => (
           <MobilePanelItem item={item} key={idx} depth={depth} />
         ))}
@@ -127,14 +127,24 @@ export const MobilePanelBackBtn = ({ depth = 0 }) => {
   }
 
   return (
-    <button className='mobile-panel__back-btn' onClick={handleClick}>
-      - Back
-    </button>
+    <li
+      className={cn(
+        'mobile-panel__list-item',
+        `mobile-panel__list-item--back-btn`
+      )}
+      aria-haspopup={false}
+      aria-expanded={false}
+      role='menuitem'
+    >
+      <button className='mobile-panel__back-btn' onClick={handleClick}>
+        - Back
+      </button>
+    </li>
   )
 }
 
 export const MobilePanelItem = ({ item, depth }) => {
-  const { id, label, items = [], path } = item
+  const { id, label, items = [], path, render } = item
   const { setActivePanels, activePanels } = useMobilePanelContext()
 
   const hasSubmenu = useMemo(() => Boolean(items?.length), [items])
@@ -180,6 +190,8 @@ export const MobilePanelItem = ({ item, depth }) => {
       )}
 
       {hasSubmenu && <MobilePanelList menu={item} depth={++depth} />}
+
+      {render && render()}
     </li>
   )
 }

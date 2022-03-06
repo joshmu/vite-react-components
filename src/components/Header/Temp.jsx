@@ -11,29 +11,27 @@ export const One = () => {
 }
 export const Two = () => {
   return (
-    <div className='center'>
-      <div className='content'>
-        <h2 className='title'>
-          here is some random text to describe this content
-        </h2>
-        <div className='inner-content'>
-          <div className='tiles'>
-            <div className='tile'></div>
-            <div className='tile'></div>
-            <div className='tile'></div>
-            <div className='tile'></div>
-            <div className='tile'></div>
-            <div className='tile'></div>
-          </div>
-          <div className='side-content'>
-            <h3 className='title'>here is a list</h3>
-            <ul className='list'>
-              <li>one</li>
-              <li>two</li>
-              <li>three</li>
-              <li>four</li>
-            </ul>
-          </div>
+    <div className='content'>
+      <h2 className='title'>
+        here is some random text to describe this content
+      </h2>
+      <div className='inner-content'>
+        <div className='tiles'>
+          <div className='tile'></div>
+          <div className='tile'></div>
+          <div className='tile'></div>
+          <div className='tile'></div>
+          <div className='tile'></div>
+          <div className='tile'></div>
+        </div>
+        <div className='side-content'>
+          <h3 className='title'>here is a list</h3>
+          <ul className='list'>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+            <li>four</li>
+          </ul>
         </div>
       </div>
     </div>
