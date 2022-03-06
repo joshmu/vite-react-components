@@ -57,39 +57,11 @@
 
   background-color: var(--h-bg-color);
 
-  // ANIMATION
+  // primary display will snap, inner content will have a transition
+  // avoiding flashing panel states across nav item interaction
   display: none;
-  // transform: translate3d(0, calc(-100% - var(--header-height)), 0);
-  // background-color: white;
-  // opacity: 0;
-  // transform: translate3d(0, -100%, 0);
-  // pointer-events: none;
-  // transform-origin: top center;
-  // transition: var(--header-transition-duration) all var(--header-transition-easing);
-
-  &.menu-item--display-type-sidebar {
-    /* toggle between 100vw vs 30vw for primary and secondary */
-    width: max(25vw, 300px); /* width of the menu */
-    min-height: 100vh;
-  }
-  &.menu-item--display-type-fullscreen {
-    /* toggle between 100vw vs 30vw for primary and secondary */
-    width: 100%; /* width of the menu */
-    height: 100vh !important;
-    overflow-x: hidden;
-    overflow-y: auto;
-    outline: 2px solid red;
-
-    .menu-item__display-content {
-      padding: 0;
-    }
-  }
-
   &--active {
     display: block;
-    // opacity: 1;
-    // transform: translate3d(0, 0, 0);
-    // pointer-events: auto;
   }
 
   .menu-item__display-content {
@@ -98,16 +70,31 @@
     height: 100%;
     padding: 1rem; // * removed on mobile fullscreen
     opacity: 0;
-    // transform: translate3d(20px, 0, 0);
 
     &--active {
       opacity: 1;
-      // transform: translate3d(0, 0, 0);
-      // transition: transform var(--h-transition-duration)
-      //     var(--h-transition-easing),
-      //   opacity var(--h-transition-duration) var(--h-transition-easing);
       transition: opacity var(--h-transition-duration)
         var(--h-transition-easing);
+    }
+  }
+
+  // SIDEBAR PANEL
+  &.menu-item--display-type-sidebar {
+    /* toggle between 100vw vs 30vw for primary and secondary */
+    width: max(25vw, 300px); /* width of the menu */
+    min-height: 100vh;
+  }
+  // MOBILE FULLSCREEN PANEL
+  &.menu-item--display-type-fullscreen {
+    width: 100%; /* width of the menu */
+    height: 100vh !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 2px solid red;
+
+    .menu-item__display-content {
+      // * remove any gutter so internal component can have full control, also important if we have transitioned page swiping
+      padding: 0;
     }
   }
 }
