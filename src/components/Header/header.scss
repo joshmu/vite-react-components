@@ -50,11 +50,11 @@
   position: fixed;
   top: 0;
   width: 100%;
-  pointer-events: none;
 
-  transform: translate3d(0, -100%, 0);
   transition: var(--h-transition-duration) all var(--h-transition-easing);
 
+  pointer-events: none;
+  transform: translate3d(0, -100%, 0);
   &--active {
     pointer-events: auto;
     transform: translate3d(0, 0, 0);

@@ -93,10 +93,16 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
   const { items = [], id } = menu
   const { activePanels, prevVisitedPanel } = useMobilePanelContext()
 
+  const isInView = useMemo(() => {
+    const currentPanel = activePanels[activePanels.length - 1]
+    return currentPanel.id === id
+  }, [activePanels, id])
+
+  // all the panels user has moved through
   const isActive = useMemo(() => {
     const currentPanel = activePanels[activePanels.length - 1]
-    return currentPanel.id === id || depth < currentPanel.depth
-  }, [activePanels, depth, id])
+    return isInView || depth < currentPanel.depth
+  }, [activePanels, depth, isInView])
 
   const isHiddenActive = useMemo(() => prevVisitedPanel.id === id, [
     prevVisitedPanel,
@@ -108,6 +114,7 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
       className={cn('mobile-panel', `mobile-panel--depth-${depth}`, {
         'mobile-panel--active': isActive,
         'mobile-panel--hidden-active': isHiddenActive,
+        'mobile-panel--in-view': isInView,
       })}
       aria-expanded={isActive}
     >

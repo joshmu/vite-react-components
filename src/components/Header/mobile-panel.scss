@@ -26,6 +26,9 @@
   display: none;
   pointer-events: none;
 
+  &--in-view {
+    overflow-y: auto;
+  }
   &--active {
     display: flex;
     pointer-events: auto;
