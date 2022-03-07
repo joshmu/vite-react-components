@@ -20,21 +20,21 @@
   width: 100%;
   padding: 1rem;
 
-  // justify-content: center;
-  // align-items: center;
-
   display: none;
   pointer-events: none;
 
   &--in-view {
-    overflow-y: auto;
+    // include all of content beyond full screen
+    height: auto;
+    // preserve full height if content is short
+    min-height: 100%;
   }
   &--active {
-    display: flex;
+    display: block;
     pointer-events: auto;
   }
   &--hidden-active {
-    display: flex;
+    display: block;
   }
 }
 
