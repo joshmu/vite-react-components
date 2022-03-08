@@ -184,12 +184,12 @@ export const Header = () => {
 
   return (
     <HeaderContext.Provider value={value}>
-      <div
+      <header
         className={cn('header-wrapper', 'base--theme', {
           'header-wrapper--active': isRevealed,
         })}
       >
-        <header
+        <div
           ref={headerRef}
           onMouseEnter={() => setTheme(THEME.light)}
           onMouseLeave={handleHeaderLeave}
@@ -231,11 +231,11 @@ export const Header = () => {
 
           {/* use focus animation only for desktop */}
           {!isMobileView && <FocusAnimation target={focusTarget} />}
-        </header>
+        </div>
 
         {/* only active when a menu item is active */}
         <Overlay active={Boolean(activeMenu)} />
-      </div>
+      </header>
     </HeaderContext.Provider>
   )
 }
