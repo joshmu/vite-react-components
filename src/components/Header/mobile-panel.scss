@@ -40,15 +40,15 @@
 
 // custom for every depth
 .mobile-panel--depth-0 {
-  background-color: lightskyblue;
+  // background-color: lightskyblue;
   transform: translate3d(0, 0, 0);
 }
 .mobile-panel--depth-1 {
-  background-color: lightsalmon;
+  // background-color: lightsalmon;
   transform: translate3d(100%, 0, 0);
 }
 .mobile-panel--depth-2 {
-  background-color: lightcyan;
+  // background-color: lightcyan;
   transform: translate3d(100%, 0, 0);
 }
 
@@ -76,14 +76,37 @@
 }
 .mobile-panel__list-item-action-link {
 }
+
 .mobile-panel__list-item-action-btn {
   border: 0;
   background-color: transparent;
   font-size: 1rem;
 }
 
-.mobile-panel__back-btn {
-  border: 0;
-  background-color: transparent;
-  font-size: 1rem;
+.mobile-panel__list-item--back-btn {
+  position: relative;
+  text-align: center;
+
+  .mobile-panel__back-btn {
+    // vertical centering
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+
+    // remove btn style
+    border: 0;
+    background-color: transparent;
+
+    // styles
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .mobile-panel__back-label {
+    font-size: 1.5rem;
+    flex: 1;
+    text-align: center;
+    outline: 1px solid red;
+  }
 }

@@ -131,13 +131,20 @@ export const MobilePanelList = ({ menu, depth = 0 }) => {
 export const MobilePanelBackBtn = ({ depth = 0 }) => {
   const {
     activePanels,
+    prevVisitedPanel,
     setActivePanels,
     handlePrevVisitedPanel,
   } = useMobilePanelContext()
 
+  const prevPanel = useMemo(() => {
+    let prev = activePanels[depth]
+    if (!prev) prev = prevVisitedPanel
+    return prev
+  }, [activePanels, prevVisitedPanel, depth])
+
   if (!depth) return null
 
-  function handleClick() {
+  function handleBackClick() {
     const updatedPanels = activePanels.slice(0, -1)
     // if there are no more active panels, then exit
     if (!updatedPanels?.length) return
@@ -156,9 +163,10 @@ export const MobilePanelBackBtn = ({ depth = 0 }) => {
       aria-expanded={false}
       role='menuitem'
     >
-      <button className='mobile-panel__back-btn' onClick={handleClick}>
-        - Back
+      <button className='mobile-panel__back-btn' onClick={handleBackClick}>
+        --
       </button>
+      <p className='mobile-panel__back-label'>{prevPanel?.label}</p>
     </li>
   )
 }
@@ -174,7 +182,7 @@ export const MobilePanelItem = ({ item, depth }) => {
   ])
 
   function handleClick() {
-    setActivePanels(panels => [...panels, { id, depth }])
+    setActivePanels(panels => [...panels, { id, label, depth }])
   }
 
   return (

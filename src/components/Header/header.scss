@@ -51,6 +51,12 @@
   top: 0;
   width: 100%;
 
+  // additional styles for deeper elems
+  a,
+  button {
+    color: var(--h-color);
+  }
+
   transition: var(--h-transition-duration) all var(--h-transition-easing);
 
   pointer-events: none;
