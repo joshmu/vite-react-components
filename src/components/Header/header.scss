@@ -28,8 +28,7 @@
 // brand folder touchpoint
 .base--theme {
   --h-height: 60px;
-
-  --h-transition-duration: 0.3s;
+  --h-transition-duration: 300ms;
   --h-transition-easing: ease-in-out;
 
   // * transition duration is overridden for the mobile panel menu on react side
