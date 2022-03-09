@@ -26,7 +26,7 @@ const CONFIG = {
 export const HeaderBrand = () => {
   // * do any api driven work at root to provide to render components
 
-  const primary = {
+  const primaryMenu = {
     items: [
       {
         type: 'primary',
@@ -59,7 +59,7 @@ export const HeaderBrand = () => {
     ],
   }
 
-  const secondary = {
+  const secondaryMenu = {
     items: [
       {
         type: 'secondary',
@@ -85,7 +85,7 @@ export const HeaderBrand = () => {
     ],
   }
 
-  const mobile = {
+  const mobileMenu = {
     label: 'mobile menu',
     id: 0,
     items: [
@@ -123,12 +123,12 @@ export const HeaderBrand = () => {
   }
 
   const menus = {
-    primary,
-    secondary,
-    mobile,
+    primary: primaryMenu,
+    secondary: secondaryMenu,
+    mobile: mobileMenu,
   }
 
-  return <Header menus={menus} config={CONFIG} />
+  return <Header menu={menus} config={CONFIG} />
 }
 
 // ! FOR DEVELOPMENT

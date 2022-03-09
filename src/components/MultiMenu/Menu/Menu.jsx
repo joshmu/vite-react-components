@@ -11,12 +11,12 @@ import '../../Header/menu-list.scss'
  * @param {'default' | 'sidebar' | 'fullscreen'} props.panelType menu display type
  * @returns
  */
-export const Menu = ({ items, depth = 0, panelType = 'default' }) => {
-  if (!items?.length) return null
+export const Menu = ({ menu, depth = 0, panelType = 'default' }) => {
+  if (!menu?.items?.length) return null
 
   return (
     <ul className={cn('menu-list', `menu-list-depth-${depth}`)} role='menubar'>
-      {items.map((item, idx) => (
+      {menu?.items.map((item, idx) => (
         <MenuItem item={item} depth={depth} panelType={panelType} key={idx} />
       ))}
     </ul>

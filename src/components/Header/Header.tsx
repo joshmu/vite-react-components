@@ -32,10 +32,7 @@ const HeaderContext = createContext(initial)
 
 export const useHeaderContext = () => useContext(HeaderContext)
 
-export const Header = ({ menus, config }) => {
-  const { primary, secondary, mobile } = menus
-  const { THEME } = config
-
+export const Header = ({ menu, config }) => {
   const headerRef = useRef(null)
   const { isMobileView } = useWindowSize()
   const [activeMenu, setActiveMenu] = useState<string>('')
@@ -86,10 +83,8 @@ export const Header = ({ menus, config }) => {
   // used for Esc key when header is active
   useEscapeKey(reset)
 
-  // todo: currently is only handling single menu display at a time
   function setMenu(label: string, depth?: number, target?: EventTarget) {
     setFocusTarget(target)
-
     setActiveMenu(current => (current === label ? null : label))
   }
 
@@ -130,18 +125,18 @@ export const Header = ({ menus, config }) => {
             {isMobileView ? (
               <Hamburger>
                 <MobilePanel
-                  menu={mobile}
+                  menu={menu.mobile}
                   activeMenu={activeMenu}
                   transitionDurationMs={config.transitionDurationMs}
                 />
               </Hamburger>
             ) : (
-              <Menu items={primary.items} />
+              <Menu menu={menu.primary} />
             )}
           </nav>
           {/* secondary menu */}
           <nav aria-label='secondary-navigation' className='secondary-menu'>
-            <Menu items={secondary.items} />
+            <Menu menu={menu.secondary} />
           </nav>
 
           {/* use focus animation only for desktop */}
