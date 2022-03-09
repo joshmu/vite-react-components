@@ -2,6 +2,8 @@ import React from 'react'
 import { Header } from './Header'
 import { Four, One, Three, Two } from './Temp'
 
+import './header-config.scss'
+
 const THEME = {
   dark: 'dark',
   light: 'light',
@@ -33,28 +35,28 @@ export const HeaderBrand = () => {
         displayType: 'drawer',
         label: 'one',
         path: '/one',
-        render: idx => <One />,
+        render: () => <One />,
       },
       {
         type: 'primary',
         displayType: 'drawer',
         label: 'two',
         path: '/two',
-        render: idx => <Two />,
+        render: () => <Two />,
       },
       {
         type: 'primary',
         displayType: 'drawer',
         label: 'three',
         path: '/three',
-        render: idx => <Three />,
+        render: () => <Three />,
       },
       {
         type: 'primary',
         displayType: 'drawer',
         label: 'four',
         path: '/four',
-        render: idx => <Four />,
+        render: () => <Four />,
       },
     ],
   }
@@ -66,21 +68,21 @@ export const HeaderBrand = () => {
         displayType: 'drawer',
         label: '(1)',
         path: '/one',
-        render: idx => <One />,
+        render: () => <One />,
       },
       {
         type: 'secondary',
         displayType: 'sidebar',
         label: '(2)',
         path: '/two',
-        render: idx => <Two />,
+        render: () => <Two />,
       },
       {
         type: 'secondary',
         displayType: 'sidebar',
         label: '(3)',
         path: '/three',
-        render: idx => <Three />,
+        render: () => <Three />,
       },
     ],
   }

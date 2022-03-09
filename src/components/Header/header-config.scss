@@ -1,0 +1,19 @@
+// brand folder touchpoint
+.base--theme {
+  --h-height: 60px;
+  --h-transition-duration: 300ms;
+  --h-transition-easing: ease-in-out;
+
+  // * transition duration is overridden for the mobile panel menu on react side
+}
+
+// header themes which are applied dynamically
+.theme--light {
+  --h-bg-color: #fff;
+  --h-color: #20283a;
+}
+
+.theme--dark {
+  --h-bg-color: #20283a;
+  --h-color: #fff;
+}
