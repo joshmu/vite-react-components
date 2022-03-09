@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 export const useUpdateActiveThemeForMobile = ({
   isMobileView,
-  THEME,
-  theme,
+  themeConfig,
   setActiveTheme,
+  setInactiveTheme,
 }) => {
+  // when mobile view causes re-render check for current theme state
+  // todo: we could improve this to conditionally not invoke a state change if unnecessary
   useEffect(() => {
     if (isMobileView) {
-      if (theme === THEME.dark) return
-      setActiveTheme(THEME.dark)
+      setActiveTheme(themeConfig.mobile.active)
+      setInactiveTheme(themeConfig.mobile.inactive)
     } else {
-      if (theme !== THEME.dark) return
-      setActiveTheme(THEME.light)
+      setActiveTheme(themeConfig.desktop.active)
+      setInactiveTheme(themeConfig.desktop.inactive)
     }
-  }, [isMobileView, theme])
+  }, [isMobileView])
 }

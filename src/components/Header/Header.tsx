@@ -15,9 +15,10 @@ import {
   useHeaderActiveOnceScrolled,
   useHeaderRevealed,
 } from './useHeaderActive'
-import { useActiveTheme } from './useActiveTheme'
+import { useActiveInactiveTheme } from './useActiveInactiveTheme'
 import { MobilePanel } from './MobilePanel'
 import { useUpdateActiveThemeForMobile } from './useUpdateActiveThemeForMobile'
+import { useUpdateHeaderActiveState } from './useUpdateHeaderActiveState'
 
 const initial = {
   isActive: false,
@@ -39,29 +40,46 @@ export const Header = ({ menus, config }) => {
   const { isMobileView } = useWindowSize()
   const [activeMenu, setActiveMenu] = useState<string>('')
   const [focusTarget, setFocusTarget] = useState<EventTarget | null>(null)
-  const [theme, setTheme] = useState(config.defaultTheme)
-  // desired theme state when activated
-  const [activeTheme, setActiveTheme] = useState(config.activeTheme)
+  // current theme
+  const [theme, setTheme] = useState(
+    config.theme[isMobileView ? 'mobile' : 'desktop'].inactive
+  )
+  // desired theme state when active
+  const [activeTheme, setActiveTheme] = useState(
+    config.theme[isMobileView ? 'mobile' : 'desktop'].active
+  )
+  // desired theme state when inactive
+  const [inactiveTheme, setInactiveTheme] = useState(
+    config.theme[isMobileView ? 'mobile' : 'desktop'].inactive
+  )
   const { isActive, setIsActive } = useHeaderActive(activeMenu)
 
   const { isRevealed } = useHeaderRevealed({
     persistReveal: Boolean(activeMenu),
   })
-  useHeaderActiveOnceScrolled({ setIsActive, isRevealed, activeMenu })
-  useActiveTheme({
-    activeTheme,
+  // useHeaderActiveOnceScrolled({ setIsActive, isRevealed, activeMenu })
+
+  // todo: set theme if at top of the page
+
+  // setting the theme based on the current state of the header
+  useActiveInactiveTheme({
     theme,
     setTheme,
     isActive,
+    activeTheme,
+    inactiveTheme,
   })
-  // dark theme when mobile view
-  // todo: check theme for mobile when transitioning from desktop opened menu, doesn't seem to be working
-  // useUpdateActiveThemeForMobile({
-  //   isMobileView,
-  //   THEME,
-  //   theme,
-  //   setActiveTheme,
-  // })
+
+  // updates the active and inactive themes configuration based on viewport
+  useUpdateActiveThemeForMobile({
+    isMobileView,
+    themeConfig: config.theme,
+    setActiveTheme,
+    setInactiveTheme,
+  })
+
+  // updates the active state of the header based on whether there is a menu open
+  useUpdateHeaderActiveState({ activeMenu, isActive, setIsActive })
 
   // used for click outside header
   useClickAway(headerRef, reset)
@@ -75,15 +93,9 @@ export const Header = ({ menus, config }) => {
     setActiveMenu(current => (current === label ? null : label))
   }
 
+  // this will reset the entire state if no menu is active
   function reset() {
     setMenu('')
-  }
-
-  function handleHeaderLeave() {
-    // setMenu(null, 0, null)
-    reset()
-    // inactive theme state
-    setTheme(config.inactiveTheme)
   }
 
   const value = {
@@ -103,8 +115,8 @@ export const Header = ({ menus, config }) => {
       >
         <div
           ref={headerRef}
-          onMouseEnter={() => setTheme(THEME.light)}
-          onMouseLeave={handleHeaderLeave}
+          onMouseEnter={() => setTheme(activeTheme)}
+          onMouseLeave={reset}
           className={cn('header', `theme--${theme}`)}
         >
           <div className='logo'>LOGO</div>

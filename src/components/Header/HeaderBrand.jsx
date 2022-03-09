@@ -8,10 +8,18 @@ const THEME = {
 }
 
 const CONFIG = {
-  THEME,
-  defaultTheme: THEME.dark,
-  activeTheme: THEME.light,
-  inactiveTheme: THEME.dark,
+  theme: {
+    desktop: {
+      active: THEME.light,
+      inactive: THEME.light,
+      topOfPage: THEME.dark, // * this needs to be a passed AEM config since most pages will be 'light' theme by default
+    },
+    mobile: {
+      active: THEME.dark,
+      inactive: THEME.light,
+      topOfPage: THEME.dark,
+    },
+  },
   transitionDurationMs: 300,
 }
 
