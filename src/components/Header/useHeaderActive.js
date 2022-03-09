@@ -13,15 +13,24 @@ export const useHeaderActive = activeMenu => {
   return { isActive, setIsActive }
 }
 
-export const useHeaderRevealed = ({ activeMenu }) => {
+export const useHeaderRevealed = ({ persistReveal = false }) => {
   // only set auto revealed at top of page on mount
-  const [isRevealed, setIsRevealed] = useState(!Boolean(window.scrollY))
+  const [isRevealed, setIsRevealed] = useState(true)
   const scrollYRef = useRef(window.scrollY)
+  const initialMountRef = useRef(true)
 
   // scroll support to activate
   useEffect(() => {
     function handleScroll() {
       const { scrollY } = window
+
+      // prevent this hook from firing on mount so header can be in view initially anywhere on the page when the user lands
+      if (initialMountRef.current) {
+        initialMountRef.current = false
+        // update scrollYRef (avoid glitch update)
+        scrollYRef.current = scrollY
+        return
+      }
 
       if (scrollY === scrollYRef.current) return
 
@@ -32,7 +41,7 @@ export const useHeaderRevealed = ({ activeMenu }) => {
         }
       } else {
         // persist if menu is open
-        if (activeMenu) return
+        if (persistReveal) return
 
         // hide menu when user is scrolling down
         if (scrollY > scrollYRef.current) {
@@ -46,11 +55,12 @@ export const useHeaderRevealed = ({ activeMenu }) => {
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isRevealed, activeMenu])
+  }, [isRevealed, persistReveal])
 
   return { isRevealed }
 }
 
+// ! not needed ?
 export const useHeaderActiveOnceScrolled = ({
   setIsActive,
   isRevealed,
