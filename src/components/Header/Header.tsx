@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { Menu } from '../MultiMenu/Menu/Menu'
-import { Hamburger } from './Hamburger'
+import { HamburgerMenu } from './Hamburger'
 
 import { useClickAway } from './useClickAway'
 
@@ -123,13 +123,13 @@ export const Header = ({ menu, config }) => {
             })}
           >
             {isMobileView ? (
-              <Hamburger>
+              <HamburgerMenu>
                 <MobilePanel
                   menu={menu.mobile}
                   activeMenu={activeMenu}
                   transitionDurationMs={config.transitionDurationMs}
                 />
-              </Hamburger>
+              </HamburgerMenu>
             ) : (
               <Menu menu={menu.primary} />
             )}

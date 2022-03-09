@@ -9,24 +9,24 @@ const THEME = {
   light: 'light',
 }
 
-const CONFIG = {
-  theme: {
-    desktop: {
-      active: THEME.light,
-      inactive: THEME.light,
-      topOfPage: THEME.dark, // * this needs to be a passed AEM config since most pages will be 'light' theme by default
-    },
-    mobile: {
-      active: THEME.dark,
-      inactive: THEME.light,
-      topOfPage: THEME.dark,
-    },
-  },
-  transitionDurationMs: 300,
-}
-
 export const HeaderBrand = () => {
   // * do any api driven work at root to provide to render components
+
+  const CONFIG = {
+    theme: {
+      desktop: {
+        active: THEME.light,
+        inactive: THEME.light,
+        topOfPage: THEME.dark, // * this needs to be a passed AEM config since most pages will be 'light' theme by default
+      },
+      mobile: {
+        active: THEME.dark,
+        inactive: THEME.light,
+        topOfPage: THEME.dark,
+      },
+    },
+    transitionDurationMs: 300,
+  }
 
   const primaryMenu = {
     items: [
